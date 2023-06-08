@@ -9,14 +9,15 @@ namespace Player
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _jumpForce;
         [SerializeField] private LayerMask _groundLayer;
+        [SerializeField] private Transform _body;
 
         private Rigidbody2D _rigidbody;
-        private BoxCollider2D _collider;
+        private Collider2D _collider;
 
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
-            _collider = GetComponent<BoxCollider2D>();
+            _collider = GetComponent<Collider2D>();
         }
 
         private void Update()
@@ -32,6 +33,19 @@ namespace Player
         private void Move()
         {
             float horizontalAxis = Input.GetAxisRaw("Horizontal");
+
+            #region Flip
+            if (horizontalAxis > 0)
+            {
+                _body.transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+
+            else if (horizontalAxis < 0)
+            {
+                _body.transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
+            #endregion
+
             _rigidbody.velocity = new Vector3(horizontalAxis * _moveSpeed, _rigidbody.velocity.y, 0f);
         }
 
