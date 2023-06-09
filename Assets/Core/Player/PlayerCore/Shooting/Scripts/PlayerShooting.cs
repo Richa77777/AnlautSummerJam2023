@@ -13,13 +13,6 @@ namespace Player
         [SerializeField] private float _minRotation = 0f;
         [SerializeField] private float _maxRotation = 150f;
 
-        private Camera _mainCamera;
-
-        private void Start()
-        {
-            _mainCamera = Camera.main;
-        }
-
         private void Update()
         {
             SetRotation();
@@ -27,14 +20,20 @@ namespace Player
 
         private void SetRotation()
         {
-            Vector3 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 direction = mousePosition - _handWithPistol.position;
+
+            // Учтите поворот персонажа при вычислении направления
+            direction = Quaternion.Euler(0f, -_characterBody.rotation.eulerAngles.y, 0f) * direction;
+
             float targetRotZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            targetRotZ += _rotationOffset;
+
+            // Учтите поворот персонажа при вычислении угла
+            targetRotZ += _rotationOffset + _characterBody.rotation.eulerAngles.z;
 
             if (targetRotZ < 0f)
             {
-                targetRotZ *= -1; // Преобразование отрицательного угла в положительный
+                targetRotZ *= -1;
             }
 
             float clampedRotZ = Mathf.Clamp(targetRotZ, _minRotation, _maxRotation);
@@ -45,6 +44,5 @@ namespace Player
 
             _handWithPistol.rotation = Quaternion.Slerp(_handWithPistol.rotation, finalRotation, _rotationSpeed * Time.deltaTime);
         }
-
     }
 }

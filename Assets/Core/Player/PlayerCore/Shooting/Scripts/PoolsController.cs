@@ -6,14 +6,14 @@ public class PoolsController : MonoBehaviour
 {
     public static PoolsController Instance;
 
-    [SerializeField] private GameObject _particlesPoolPrefab;
-    [SerializeField] private GameObject _puddlesPoolPrefab;
+    [SerializeField] private GameObject _smallBulletsPoolPrefab;
+    [SerializeField] private GameObject _bigBulletsPoolPrefab;
 
-    private ObjectsPool _particlesPool;
-    private ObjectsPool _puddlesPool;
+    private ObjectsPool _smallBulletsPool;
+    private ObjectsPool _bigBulletsPool;
 
-    public ObjectsPool GetParticlesPool => _particlesPool;
-    public ObjectsPool GetPuddlesPool => _puddlesPool;
+    public ObjectsPool GetSmallBulletsPool => _smallBulletsPool;
+    public ObjectsPool GetBigBulletsPool => _smallBulletsPool;
 
     private void Awake()
     {
@@ -27,7 +27,7 @@ public class PoolsController : MonoBehaviour
             Destroy(gameObject);
         }
 
-        _particlesPool = Instantiate(_particlesPoolPrefab).GetComponent<ObjectsPool>();
-        _puddlesPool = Instantiate(_puddlesPoolPrefab).GetComponent<ObjectsPool>();
+        _smallBulletsPool = Instantiate(_smallBulletsPoolPrefab).GetComponent<ObjectsPool>();
+        _bigBulletsPool = Instantiate(_bigBulletsPoolPrefab).GetComponent<ObjectsPool>();
     }
 }

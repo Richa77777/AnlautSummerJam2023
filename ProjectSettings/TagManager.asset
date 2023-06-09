@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - PuddlesPool
+  - GroundGrid
+  - PuddlesGrid
   layers:
   - Default
   - TransparentFX
