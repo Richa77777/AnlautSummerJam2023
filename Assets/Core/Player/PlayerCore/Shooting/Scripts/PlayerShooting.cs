@@ -13,6 +13,13 @@ namespace Player
         [SerializeField] private float _minRotation = 0f;
         [SerializeField] private float _maxRotation = 150f;
 
+        private Camera _mainCamera;
+
+        private void Start()
+        {
+            _mainCamera = Camera.main;
+        }
+
         private void Update()
         {
             SetRotation();
@@ -20,7 +27,7 @@ namespace Player
 
         private void SetRotation()
         {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
             Vector3 direction = mousePosition - _handWithPistol.position;
             float targetRotZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             targetRotZ += _rotationOffset;

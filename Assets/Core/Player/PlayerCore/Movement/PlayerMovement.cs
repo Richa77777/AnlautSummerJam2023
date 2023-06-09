@@ -13,16 +13,53 @@ namespace Player
 
         private Rigidbody2D _rigidbody;
         private Collider2D _collider;
+        private Animator _bodyAnimator;
 
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
+            _bodyAnimator = _body.GetComponent<Animator>();
         }
 
         private void Update()
         {
             Move();
+
+            #region JumpAnimation
+            if (IsGrounded())
+            {
+                if (_bodyAnimator.GetBool("isJumping") == true)
+                {
+                    _bodyAnimator.SetBool("isJumping", false);
+                }
+            }
+            else if (!IsGrounded())
+            {
+                float horizontalAxis = Input.GetAxisRaw("Horizontal");
+
+                if (horizontalAxis != 0)
+                {
+                    if (_bodyAnimator.GetBool("isJumpInDirection") == false)
+                    {
+                        _bodyAnimator.SetBool("isJumpInDirection", true);
+                    }
+                }
+
+                else if (horizontalAxis == 0)
+                {
+                    if (_bodyAnimator.GetBool("isJumpInDirection") == true)
+                    {
+                        _bodyAnimator.SetBool("isJumpInDirection", false);
+                    }
+                }
+
+                if (_bodyAnimator.GetBool("isJumping") == false)
+                {
+                    _bodyAnimator.SetBool("isJumping", true);
+                }
+            }
+            #endregion
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -33,6 +70,24 @@ namespace Player
         private void Move()
         {
             float horizontalAxis = Input.GetAxisRaw("Horizontal");
+
+            #region WalkAnimation
+            if (horizontalAxis != 0)
+            {
+                if (_bodyAnimator.GetBool("isWalking") == false)
+                {
+                    _bodyAnimator.SetBool("isWalking", true);
+                }
+            }
+
+            else if (horizontalAxis == 0)
+            {
+                if (_bodyAnimator.GetBool("isWalking") == true)
+                {
+                    _bodyAnimator.SetBool("isWalking", false);
+                }
+            }
+            #endregion
 
             #region Flip
             if (horizontalAxis > 0)
