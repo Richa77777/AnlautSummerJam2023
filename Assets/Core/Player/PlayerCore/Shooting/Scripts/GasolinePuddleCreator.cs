@@ -26,18 +26,29 @@ public class GasolinePuddleCreator : MonoBehaviour
         Vector3 point = contact.point;
         Vector3Int collisionCellPosition = _groundTilemap.WorldToCell(point);
 
+
         if (Mathf.Abs(collisionNormal.x) > Mathf.Abs(collisionNormal.y))
         {
             if (collisionNormal.x > 0)
             {
-                collisionCellPosition = new Vector3Int(collisionCellPosition.x, collisionCellPosition.y);
-                _puddlesTilemap.SetTile(collisionCellPosition, _puddleTileRight);
+                collisionCellPosition = new Vector3Int(collisionCellPosition.x - 1, collisionCellPosition.y);
+
+                if (_groundTilemap.HasTile(collisionCellPosition))
+                {
+                    _puddlesTilemap.SetTile(collisionCellPosition, _puddleTileRight);
+                }
+
                 print("Справа");
             }
             else
             {
-                collisionCellPosition = new Vector3Int(collisionCellPosition.x, collisionCellPosition.y);
-                _puddlesTilemap.SetTile(collisionCellPosition, _puddleTileLeft);
+                collisionCellPosition = new Vector3Int(collisionCellPosition.x + 1, collisionCellPosition.y);
+
+                if (_groundTilemap.HasTile(collisionCellPosition))
+                {
+                    _puddlesTilemap.SetTile(collisionCellPosition, _puddleTileLeft);
+                }
+
                 print("Слева");
             }
         }
@@ -46,13 +57,23 @@ public class GasolinePuddleCreator : MonoBehaviour
             if (collisionNormal.y > 0)
             {
                 collisionCellPosition = new Vector3Int(collisionCellPosition.x, collisionCellPosition.y - 1);
-                _puddlesTilemap.SetTile(collisionCellPosition, _puddleTileUp);
+
+                if (_groundTilemap.HasTile(collisionCellPosition))
+                {
+                    _puddlesTilemap.SetTile(collisionCellPosition, _puddleTileUp);
+                }
+
                 print("Сверху");
             }
             else
             {
-                collisionCellPosition = new Vector3Int(collisionCellPosition.x, collisionCellPosition.y);
-                _puddlesTilemap.SetTile(collisionCellPosition, _puddleTileDown);
+                collisionCellPosition = new Vector3Int(collisionCellPosition.x, collisionCellPosition.y + 1);
+
+                if (_groundTilemap.HasTile(collisionCellPosition))
+                {
+                    _puddlesTilemap.SetTile(collisionCellPosition, _puddleTileDown);
+                }
+
                 print("Снизу");
             }
         }

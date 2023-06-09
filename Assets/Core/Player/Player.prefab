@@ -323,6 +323,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _handWithPistol: {fileID: 7259978022992756263}
   _characterBody: {fileID: 7259978023402774482}
+  _shootPoint: {fileID: 6061178617269200541}
   _rotationOffset: 84
   _rotationSpeed: 5
   _minRotation: 0

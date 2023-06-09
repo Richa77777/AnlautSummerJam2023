@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,8 @@ namespace Player
     {
         [SerializeField] private Transform _handWithPistol;
         [SerializeField] private Transform _characterBody;
+        [SerializeField] private Transform _shootPoint;
+
         [SerializeField] private float _rotationOffset;
         [SerializeField] private float _rotationSpeed;
         [SerializeField] private float _minRotation = 0f;
@@ -16,6 +19,18 @@ namespace Player
         private void Update()
         {
             SetRotation();
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                Shoot();
+            }
+        }
+
+        private void Shoot()
+        {
+            GameObject bullet = PoolsController.Instance.GetSmallBulletsPool.GetObjectFromPool();
+            bullet.transform.position = _shootPoint.position;
+            bullet.SetActive(true);
         }
 
         private void SetRotation()

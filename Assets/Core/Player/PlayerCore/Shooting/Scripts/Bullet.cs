@@ -13,6 +13,6 @@ public class Bullet : MonoBehaviour
 
     private void OnEnable()
     {
-        
+        _rigidbody.velocity = new Vector3(0, 0, 0);
     }
 }
