@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1897796770409047839}
   - component: {fileID: 1897796770409047836}
   - component: {fileID: 3303486849355456671}
+  - component: {fileID: 4043643411384967932}
   - component: {fileID: 1897796770409047838}
   - component: {fileID: 1897796770409047833}
   m_Layer: 7
@@ -100,6 +101,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 6.5
+--- !u!114 &4043643411384967932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897796770409047837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 824ea889620de6949b3632f6c70aaa53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _puddleTileUp: {fileID: 11400000, guid: 2ade199b6f066b647a0ce1f844c62629, type: 2}
+  _puddleTileDown: {fileID: 11400000, guid: 1d392653f7bd2d5459300e329dc0052e, type: 2}
+  _puddleTileRight: {fileID: 11400000, guid: 0aeb25564ccfe9c439adcd52851f8a8e, type: 2}
+  _puddleTileLeft: {fileID: 11400000, guid: b58b22db48f55f4448101c0e89032e39, type: 2}
+  _coverageRadius: 2
 --- !u!58 &1897796770409047838
 CircleCollider2D:
   m_ObjectHideFlags: 0
