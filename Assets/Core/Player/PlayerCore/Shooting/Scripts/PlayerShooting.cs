@@ -28,8 +28,9 @@ namespace Player
 
         private void Shoot()
         {
-            GameObject bullet = PoolsController.Instance.GetSmallBulletsPool.GetObjectFromPool();
+            GameObject bullet = PoolsController.Instance.GetBigBulletsPool.GetObjectFromPool();
             bullet.transform.position = _shootPoint.position;
+            bullet.transform.rotation = _handWithPistol.transform.rotation;
             bullet.SetActive(true);
         }
 

@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private Rigidbody2D _rigidbody;
+    [SerializeField] private float _speed;
 
-    private void Awake()
+    private void Update()
     {
-        _rigidbody = GetComponent<Rigidbody2D>();
-    }
-
-    private void OnEnable()
-    {
-        _rigidbody.velocity = new Vector3(0, 0, 0);
+        transform.Translate(Vector2.down * _speed * Time.deltaTime);
     }
 }

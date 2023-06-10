@@ -13,7 +13,7 @@ public class PoolsController : MonoBehaviour
     private ObjectsPool _bigBulletsPool;
 
     public ObjectsPool GetSmallBulletsPool => _smallBulletsPool;
-    public ObjectsPool GetBigBulletsPool => _smallBulletsPool;
+    public ObjectsPool GetBigBulletsPool => _bigBulletsPool;
 
     private void Awake()
     {
