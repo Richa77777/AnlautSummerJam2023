@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Player
+namespace PlayerSpace
 {
     public class PlayerShooting : MonoBehaviour
     {
@@ -16,22 +16,63 @@ namespace Player
         [SerializeField] private float _minRotation = 0f;
         [SerializeField] private float _maxRotation = 150f;
 
+        [SerializeField] private float _smallShotReloadTime = 0.3f;
+        [SerializeField] private float _bigShotReloadTime = 1f;
+
+        private bool _smallShotAvailable = true;
+        private bool _bigShotAvailable = true;
+
         private void Update()
         {
             SetRotation();
 
             if (Input.GetMouseButtonDown(0))
             {
-                Shoot();
+                if (_smallShotAvailable == true)
+                {
+                    _smallShotAvailable = false;
+                    SmallShot();
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (_bigShotAvailable == true)
+                {
+                    _bigShotAvailable = false;
+                    BigShot();
+                }
             }
         }
 
-        private void Shoot()
+        private void SmallShot()
         {
             GameObject bullet = PoolsController.Instance.GetSmallBulletsPool.GetObjectFromPool();
             bullet.transform.position = _shootPoint.position;
             bullet.transform.rotation = _handWithPistol.transform.rotation;
             bullet.SetActive(true);
+
+            StartCoroutine(SmallShotReloading());
+        }
+
+        private void BigShot()
+        {
+            GameObject bullet = PoolsController.Instance.GetBigBulletsPool.GetObjectFromPool();
+            print("BigShot");
+
+            StartCoroutine(BigShotReloading());
+        }
+
+        private IEnumerator SmallShotReloading()
+        {
+            yield return new WaitForSeconds(_smallShotReloadTime);
+            _smallShotAvailable = true;
+        }
+
+        private IEnumerator BigShotReloading()
+        {
+            yield return new WaitForSeconds(_bigShotReloadTime);
+            _bigShotAvailable = true;
         }
 
         private void SetRotation()

@@ -6,7 +6,11 @@ TagManager:
   tags:
   - PuddlesPool
   - GroundGrid
-  - PuddlesGrid
+  - PuddlesUpGrid
+  - PuddlesDownGrid
+  - PuddlesRightGrid
+  - PuddlesLeftGrid
+  - ImmortalPuddlesGrid
   layers:
   - Default
   - TransparentFX

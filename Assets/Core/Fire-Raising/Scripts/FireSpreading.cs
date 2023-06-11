@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireSpreading : MonoBehaviour
+namespace FireRaising
 {
+    public class FireSpreading : MonoBehaviour
+    {
 
+    }
 }

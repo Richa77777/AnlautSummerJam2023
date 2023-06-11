@@ -6,7 +6,11 @@ using UnityEngine.Tilemaps;
 public class GasolineBulletSmall : MonoBehaviour
 {
     private Tilemap _groundTilemap;
-    private Tilemap _puddlesTilemap;
+    private Tilemap _puddlesUpTilemap;
+    private Tilemap _puddlesDownTilemap;
+    private Tilemap _puddlesRightTilemap;
+    private Tilemap _puddlesLeftTilemap;
+    private Tilemap _immortalPuddlesTilemap;
 
     [SerializeField] private TileBase _puddleTileUp;
     [SerializeField] private TileBase _puddleTileDown;
@@ -16,7 +20,11 @@ public class GasolineBulletSmall : MonoBehaviour
     private void Start()
     {
         _groundTilemap = GameObject.FindGameObjectWithTag("GroundGrid").GetComponent<Tilemap>();
-        _puddlesTilemap = GameObject.FindGameObjectWithTag("PuddlesGrid").GetComponent<Tilemap>();
+        _puddlesUpTilemap = GameObject.FindGameObjectWithTag("PuddlesUpGrid").GetComponent<Tilemap>();
+        _puddlesDownTilemap = GameObject.FindGameObjectWithTag("PuddlesDownGrid").GetComponent<Tilemap>();
+        _puddlesRightTilemap = GameObject.FindGameObjectWithTag("PuddlesRightGrid").GetComponent<Tilemap>();
+        _puddlesLeftTilemap = GameObject.FindGameObjectWithTag("PuddlesLeftGrid").GetComponent<Tilemap>();
+        _immortalPuddlesTilemap = GameObject.FindGameObjectWithTag("ImmortalPuddlesGrid").GetComponent<Tilemap>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -35,22 +43,34 @@ public class GasolineBulletSmall : MonoBehaviour
             {
                 if (collisionNormal.x > 0)
                 {
-                    _puddlesTilemap.SetTile(nearestTilePosition, _puddleTileRight);
+                    if (_immortalPuddlesTilemap.GetTile(nearestTilePosition) != _puddleTileRight)
+                    {
+                        _puddlesRightTilemap.SetTile(nearestTilePosition, _puddleTileRight);
+                    }
                 }
                 else
                 {
-                    _puddlesTilemap.SetTile(nearestTilePosition, _puddleTileLeft);
-                }
+                    if (_immortalPuddlesTilemap.GetTile(nearestTilePosition) != _puddleTileLeft)
+                    {
+                        _puddlesLeftTilemap.SetTile(nearestTilePosition, _puddleTileLeft);
+                    }
+               }
             }
             else
             {
                 if (collisionNormal.y > 0)
                 {
-                    _puddlesTilemap.SetTile(nearestTilePosition, _puddleTileUp);
+                    if (_immortalPuddlesTilemap.GetTile(nearestTilePosition) != _puddleTileUp)
+                    {
+                        _puddlesUpTilemap.SetTile(nearestTilePosition, _puddleTileUp);
+                    }
                 }
                 else
                 {
-                    _puddlesTilemap.SetTile(nearestTilePosition, _puddleTileDown);
+                    if (_immortalPuddlesTilemap.GetTile(nearestTilePosition) != _puddleTileDown)
+                    {
+                        _puddlesDownTilemap.SetTile(nearestTilePosition, _puddleTileDown);
+                    }
                 }
             }
         }

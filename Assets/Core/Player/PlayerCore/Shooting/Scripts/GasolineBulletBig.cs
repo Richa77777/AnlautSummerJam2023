@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,17 +7,31 @@ using UnityEngine.Tilemaps;
 public class GasolineBulletBig : MonoBehaviour
 {
     private Tilemap _groundTilemap;
-    private Tilemap _puddlesTilemap;
+
+    private Tilemap _puddlesUpTilemap;
+    private Tilemap _puddlesDownTilemap;
+    private Tilemap _puddlesRightTilemap;
+    private Tilemap _puddlesLeftTilemap;
+    private Tilemap _immortalPuddlesTilemap;
 
     [SerializeField] private TileBase _puddleTileUp;
     [SerializeField] private TileBase _puddleTileDown;
     [SerializeField] private TileBase _puddleTileRight;
     [SerializeField] private TileBase _puddleTileLeft;
 
+    [SerializeField] private TileBase[] _groundGroupVertical = new TileBase[3];
+    [SerializeField] private TileBase[] _groundGroupHorizontal = new TileBase[3];
+    [SerializeField] private TileBase[] _groundGroupAllowVerticalRight = new TileBase[3];
+    [SerializeField] private TileBase[] _groundGroupAllowVerticalLeft = new TileBase[3];
+
     private void Start()
     {
         _groundTilemap = GameObject.FindGameObjectWithTag("GroundGrid").GetComponent<Tilemap>();
-        _puddlesTilemap = GameObject.FindGameObjectWithTag("PuddlesGrid").GetComponent<Tilemap>();
+        _puddlesUpTilemap = GameObject.FindGameObjectWithTag("PuddlesUpGrid").GetComponent<Tilemap>();
+        _puddlesDownTilemap = GameObject.FindGameObjectWithTag("PuddlesDownGrid").GetComponent<Tilemap>();
+        _puddlesRightTilemap = GameObject.FindGameObjectWithTag("PuddlesRightGrid").GetComponent<Tilemap>();
+        _puddlesLeftTilemap = GameObject.FindGameObjectWithTag("PuddlesLeftGrid").GetComponent<Tilemap>();
+        _immortalPuddlesTilemap = GameObject.FindGameObjectWithTag("ImmortalPuddlesGrid").GetComponent<Tilemap>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -88,33 +103,186 @@ public class GasolineBulletBig : MonoBehaviour
     {
         if (_groundTilemap.HasTile(centerTilePosition))
         {
-            _puddlesTilemap.SetTile(centerTilePosition, puddleTile);
+            Tilemap currentTilemap = null;
+
+            if (puddleTile == _puddleTileUp)
+            {
+                currentTilemap = _puddlesUpTilemap;
+            }
+
+            else if (puddleTile == _puddleTileDown)
+            {
+                currentTilemap = _puddlesDownTilemap;
+            }
+
+            else if (puddleTile == _puddleTileRight)
+            {
+                currentTilemap = _puddlesRightTilemap;
+            }
+
+            else if (puddleTile == _puddleTileLeft)
+            {
+                currentTilemap = _puddlesLeftTilemap;
+            }
+
+            if (_immortalPuddlesTilemap.GetTile(centerTilePosition) != puddleTile)
+            {
+                currentTilemap.SetTile(centerTilePosition, puddleTile);
+            }
 
             TileBase centerGroundTile = _groundTilemap.GetTile(centerTilePosition);
+            TileBase[] tilesGroup = null;
 
-            // Set tiles along the line in each direction if they are available and have the same TileBase as the center tile
-            for (int i = 1; i <= lineLength; i++)
+            if (_groundGroupHorizontal.Contains(centerGroundTile))
             {
-                Vector3Int leftTilePosition = centerTilePosition + new Vector3Int(-i, 0, 0);
-                Vector3Int rightTilePosition = centerTilePosition + new Vector3Int(i, 0, 0);
-                if (_groundTilemap.HasTile(leftTilePosition) && _groundTilemap.GetTile(leftTilePosition) == centerGroundTile)
-                {
-                    _puddlesTilemap.SetTile(leftTilePosition, puddleTile);
-                }
-                if (_groundTilemap.HasTile(rightTilePosition) && _groundTilemap.GetTile(rightTilePosition) == centerGroundTile)
-                {
-                    _puddlesTilemap.SetTile(rightTilePosition, puddleTile);
-                }
+                tilesGroup = _groundGroupHorizontal;
+            }
 
-                Vector3Int downTilePosition = centerTilePosition + new Vector3Int(0, -i, 0);
-                Vector3Int upTilePosition = centerTilePosition + new Vector3Int(0, i, 0);
-                if (_groundTilemap.HasTile(downTilePosition) && _groundTilemap.GetTile(downTilePosition) == centerGroundTile)
+            else if (_groundGroupVertical.Contains(centerGroundTile))
+            {
+                tilesGroup = _groundGroupVertical;
+            }
+
+            if (tilesGroup != null)
+            {
+                bool left = true;
+                bool right = true;
+                bool up = true;
+                bool down = true;
+
+                // Set tiles along the line in each direction if they are available and have the same TileBase as the center tile
+                for (int i = 1; i <= lineLength; i++)
                 {
-                    _puddlesTilemap.SetTile(downTilePosition, puddleTile);
-                }
-                if (_groundTilemap.HasTile(upTilePosition) && _groundTilemap.GetTile(upTilePosition) == centerGroundTile)
-                {
-                    _puddlesTilemap.SetTile(upTilePosition, puddleTile);
+                    Vector3Int leftTilePosition = centerTilePosition + new Vector3Int(-i, 0, 0);
+                    Vector3Int rightTilePosition = centerTilePosition + new Vector3Int(i, 0, 0);
+                    Vector3Int downTilePosition = centerTilePosition + new Vector3Int(0, -i, 0);
+                    Vector3Int upTilePosition = centerTilePosition + new Vector3Int(0, i, 0);
+
+                    if (puddleTile == _puddleTileUp)
+                    {
+                        if (_groundTilemap.HasTile(new Vector3Int(leftTilePosition.x, leftTilePosition.y + 1)))
+                        {
+                            left = false;
+                        }
+
+                        if (_groundTilemap.HasTile(new Vector3Int(rightTilePosition.x, rightTilePosition.y + 1)))
+                        {
+                            right = false;
+                        }
+                    }
+
+                    if (puddleTile == _puddleTileDown)
+                    {
+                        if (_groundTilemap.HasTile(new Vector3Int(leftTilePosition.x, leftTilePosition.y - 1)))
+                        {
+                            left = false;
+                        }
+
+                        if (_groundTilemap.HasTile(new Vector3Int(rightTilePosition.x, rightTilePosition.y - 1)))
+                        {
+                            right = false;
+                        }
+                    }
+
+                    if (puddleTile == _puddleTileRight)
+                    {
+                        if (_groundTilemap.HasTile(new Vector3Int(upTilePosition.x + 1, upTilePosition.y)))
+                        {
+                            up = false;
+                        }
+
+                        if (_groundTilemap.HasTile(new Vector3Int(downTilePosition.x + 1, downTilePosition.y)))
+                        {
+                            down = false;
+                        }
+                    }
+
+                    if (puddleTile == _puddleTileLeft)
+                    {
+                        if (_groundTilemap.HasTile(new Vector3Int(upTilePosition.x - 1, upTilePosition.y)))
+                        {
+                            up = false;
+                        }
+
+                        if (_groundTilemap.HasTile(new Vector3Int(downTilePosition.x - 1, downTilePosition.y)))
+                        {
+                            down = false;
+                        }
+                    }
+
+                    if (_groundTilemap.HasTile(rightTilePosition) && tilesGroup.Contains(_groundTilemap.GetTile(rightTilePosition)) && right == true)
+                    {
+                        if (!_immortalPuddlesTilemap.HasTile(rightTilePosition))
+                        {
+                            if (puddleTile == _puddleTileLeft || puddleTile == _puddleTileRight)
+                            {
+                                if (puddleTile == _puddleTileRight)
+                                {
+                                    if (_groundGroupAllowVerticalRight.Contains(_groundTilemap.GetTile(rightTilePosition)))
+                                    {
+                                        currentTilemap.SetTile(rightTilePosition, puddleTile);
+                                    }
+                                }
+
+                                else if (_puddlesLeftTilemap == _puddleTileLeft)
+                                {
+                                    if (_groundGroupAllowVerticalLeft.Contains(_groundTilemap.GetTile(rightTilePosition)))
+                                    {
+                                        currentTilemap.SetTile(rightTilePosition, puddleTile);
+                                    }
+                                }
+
+                                return;
+                            }
+
+                            currentTilemap.SetTile(rightTilePosition, puddleTile);
+                        }
+                    }
+
+                    if (_groundTilemap.HasTile(leftTilePosition) && tilesGroup.Contains(_groundTilemap.GetTile(leftTilePosition)) && left == true)
+                    {
+                        if (!_immortalPuddlesTilemap.HasTile(leftTilePosition))
+                        {
+                            if (puddleTile == _puddleTileLeft || puddleTile == _puddleTileRight)
+                            {
+                                if (puddleTile == _puddleTileRight)
+                                {
+                                    if (_groundGroupAllowVerticalRight.Contains(_groundTilemap.GetTile(leftTilePosition)))
+                                    {
+                                        currentTilemap.SetTile(leftTilePosition, puddleTile);
+                                    }
+                                }
+
+                                else if (_puddlesLeftTilemap == _puddleTileLeft)
+                                {
+                                    if (_groundGroupAllowVerticalLeft.Contains(_groundTilemap.GetTile(leftTilePosition)))
+                                    {
+                                        currentTilemap.SetTile(leftTilePosition, puddleTile);
+                                    }
+                                }
+
+                                return;
+                            }
+
+                            currentTilemap.SetTile(leftTilePosition, puddleTile);
+                        }
+                    }
+
+                    if (_groundTilemap.HasTile(upTilePosition) && tilesGroup.Contains(_groundTilemap.GetTile(upTilePosition)) && up == true)
+                    {
+                        if (!_immortalPuddlesTilemap.HasTile(upTilePosition))
+                        {
+                            currentTilemap.SetTile(upTilePosition, puddleTile);
+                        }
+                    }
+
+                    if (_groundTilemap.HasTile(downTilePosition) && tilesGroup.Contains(_groundTilemap.GetTile(downTilePosition)) && down == true)
+                    {
+                        if (!_immortalPuddlesTilemap.HasTile(downTilePosition))
+                        {
+                            currentTilemap.SetTile(downTilePosition, puddleTile);
+                        }
+                    }
                 }
             }
         }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Player
+namespace PlayerSpace
 {
     public class PlayerMovement : MonoBehaviour
     {
