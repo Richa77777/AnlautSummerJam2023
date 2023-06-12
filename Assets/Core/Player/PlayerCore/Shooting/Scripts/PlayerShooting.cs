@@ -11,6 +11,7 @@ namespace PlayerSpace
         [SerializeField] private Transform _handWithPistol;
         [SerializeField] private Transform _characterBody;
         [SerializeField] private Transform _shootPoint;
+        [SerializeField] private Transform _bigShootPoint;
 
         [SerializeField] private float _rotationOffset;
         [SerializeField] private float _rotationSpeed;
@@ -19,14 +20,26 @@ namespace PlayerSpace
 
         [SerializeField] private float _smallShotReloadTime = 0.3f;
         [SerializeField] private float _bigShotReloadTime = 1f;
+        [SerializeField] private float _bigShotJumpForce = 5f;
 
         private bool _smallShotAvailable = true;
         private bool _bigShotAvailable = true;
         private bool _shootingAvailable = true;
 
+        private Coroutine _smallShotReloadCor;
+
+        private Rigidbody2D _rigidbody;
+        private Animator _characterBodyAnimator;
+
         public Transform GetHandWithPistol => _handWithPistol;
         public Transform GetShootPoint => _shootPoint;
         public bool ShootingAvailable { set => _shootingAvailable = value; }
+
+        private void Awake()
+        {
+            _rigidbody = GetComponent<Rigidbody2D>();
+            _characterBodyAnimator = _characterBody.GetComponent<Animator>();
+        }
 
         private void Update()
         {
@@ -48,7 +61,16 @@ namespace PlayerSpace
                     if (_bigShotAvailable == true)
                     {
                         _bigShotAvailable = false;
-                        BigShot();
+                        _handWithPistol.gameObject.SetActive(false);
+
+                        if (_smallShotReloadCor != null)
+                        {
+                            StopCoroutine(_smallShotReloadCor);
+                            _smallShotReloadCor = null;
+                        }
+
+                        _smallShotAvailable = false;
+                        StartCoroutine(BigShotCor());
                     }
                 }
             }
@@ -61,27 +83,38 @@ namespace PlayerSpace
             bullet.transform.rotation = _handWithPistol.transform.rotation;
             bullet.SetActive(true);
 
-            StartCoroutine(SmallShotReloading());
+            _smallShotReloadCor = StartCoroutine(SmallShotReloading());
         }
 
-        private void BigShot()
+        public void BigShot()
         {
             GameObject bullet = PoolsController.Instance.GetBigBulletsPool.GetObjectFromPool();
-            print("BigShot");
-
-            StartCoroutine(BigShotReloading());
+            bullet.transform.position = _bigShootPoint.transform.position;
+            bullet.SetActive(true);
         }
 
-        private IEnumerator SmallShotReloading()
+        private IEnumerator BigShotCor()
         {
-            yield return new WaitForSeconds(_smallShotReloadTime);
+            _characterBodyAnimator.Play("BigShot", 0, 0);
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _rigidbody.velocity.y + _bigShotJumpForce);
+
+            yield return new WaitForSeconds(_characterBodyAnimator.GetCurrentAnimatorClipInfo(0).Length - 0.15f);
+
+            _handWithPistol.gameObject.SetActive(true);
             _smallShotAvailable = true;
+
+            StartCoroutine(BigShotReloading());
         }
 
         private IEnumerator BigShotReloading()
         {
             yield return new WaitForSeconds(_bigShotReloadTime);
             _bigShotAvailable = true;
+        }
+        private IEnumerator SmallShotReloading()
+        {
+            yield return new WaitForSeconds(_smallShotReloadTime);
+            _smallShotAvailable = true;
         }
 
         private void SetRotation()

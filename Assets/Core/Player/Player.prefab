@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1248923096
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1248923097}
+  m_Layer: 0
+  m_Name: BigShootPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1248923097
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248923096}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.075, y: -1.2198, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7259978023402774482}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &985361409453830997
 GameObject:
   m_ObjectHideFlags: 0
@@ -23,8 +54,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 985361409453830997}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.063, y: -0.611, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.06300002, y: -0.61099994, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -198,6 +229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7259978023402774482}
   - component: {fileID: 7259978023402774483}
+  - component: {fileID: 2752532159540585659}
   - component: {fileID: 7259978023402774481}
   m_Layer: 0
   m_Name: Body
@@ -219,6 +251,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7259978022992756263}
+  - {fileID: 1248923097}
   m_Father: {fileID: 7259978024521804842}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -274,6 +307,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2752532159540585659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7259978023402774484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0658a35a35142ae458eb5d71690cf194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &7259978023402774481
 Animator:
   serializedVersion: 5
@@ -377,12 +422,14 @@ MonoBehaviour:
   _handWithPistol: {fileID: 7259978022992756263}
   _characterBody: {fileID: 7259978023402774482}
   _shootPoint: {fileID: 6061178617269200541}
+  _bigShootPoint: {fileID: 1248923097}
   _rotationOffset: 90
   _rotationSpeed: 5
   _minRotation: 0
   _maxRotation: 150
   _smallShotReloadTime: 0.3
-  _bigShotReloadTime: 1
+  _bigShotReloadTime: 10
+  _bigShotJumpForce: 6.5
 --- !u!50 &7259978024521804841
 Rigidbody2D:
   serializedVersion: 4
