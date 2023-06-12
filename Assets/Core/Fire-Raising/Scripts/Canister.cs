@@ -7,29 +7,123 @@ namespace FireRaising
 {
     public class Canister : MonoBehaviour
     {
-        [SerializeField] private GameObject _fireUpPrefab;
-        [SerializeField] private GameObject _fireDownPrefab;
-        [SerializeField] private GameObject _fireRightPrefab;
-        [SerializeField] private GameObject _fireLeftPrefab;
+        [SerializeField] private TileBase _puddleTileUp;
+        [SerializeField] private TileBase _puddleTileDown;
+        [SerializeField] private TileBase _puddleTileRight;
+        [SerializeField] private TileBase _puddleTileLeft;
 
         private Tilemap _puddlesUpTilemap;
         private Tilemap _puddlesDownTilemap;
         private Tilemap _puddlesRightTilemap;
         private Tilemap _puddlesLeftTilemap;
-        private Tilemap _immortalPuddlesTilemap;
 
-        private void Start()
+        private Collider2D _collider;
+
+        private void Awake()
         {
             _puddlesUpTilemap = GameObject.FindGameObjectWithTag("PuddlesUpGrid").GetComponent<Tilemap>();
             _puddlesDownTilemap = GameObject.FindGameObjectWithTag("PuddlesDownGrid").GetComponent<Tilemap>();
             _puddlesRightTilemap = GameObject.FindGameObjectWithTag("PuddlesRightGrid").GetComponent<Tilemap>();
             _puddlesLeftTilemap = GameObject.FindGameObjectWithTag("PuddlesLeftGrid").GetComponent<Tilemap>();
-            _immortalPuddlesTilemap = GameObject.FindGameObjectWithTag("ImmortalPuddlesGrid").GetComponent<Tilemap>();
+
+            _collider = GetComponent<Collider2D>();
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void Update()
         {
+            #region Clue
+            //if (currentTilemap == _puddlesUpTilemap)
+            //{
+            //    GameObject fire = PoolsController.Instance.GetFiresUpPool.GetObjectFromPool();
+            //    Vector3Int pos = FindNearestTile(_puddlesUpTilemap, _collider.bounds.center, 1f);
 
+            //    pos.y += 1;
+
+            //    if (!FireController.Instance.GetCellsWithFireList.Contains(pos))
+            //    {
+            //        FireController.Instance.IgniteTile(_puddlesUpTilemap.GetCellCenterWorld(pos), fire);
+            //    }
+            //}
+            #endregion
+
+            List<Vector3Int> upPuddles = FindNearestPuddleTile(_puddlesUpTilemap);
+            List<Vector3Int> downPuddles = FindNearestPuddleTile(_puddlesDownTilemap);
+            List<Vector3Int> rightPuddles = FindNearestPuddleTile(_puddlesRightTilemap);
+            List<Vector3Int> leftPuddles = FindNearestPuddleTile(_puddlesLeftTilemap);
+
+            Vector3Int firePos = Vector3Int.zero;
+
+            for (int i = 0; i < upPuddles.Count; i++)
+            {
+                firePos = upPuddles[i];
+                firePos.y += 1;
+
+                if (!FireController.Instance.GetCellsWithFireList.Contains(_puddlesUpTilemap.GetCellCenterWorld(firePos)))
+                {
+                    FireController.Instance.IgniteTile(_puddlesUpTilemap.GetCellCenterWorld(firePos), FireSides.Up);
+                }
+            }
+
+            for (int i = 0; i < downPuddles.Count; i++)
+            {
+                firePos = downPuddles[i];
+                firePos.y -= 1;
+
+                if (!FireController.Instance.GetCellsWithFireList.Contains(_puddlesDownTilemap.GetCellCenterWorld(firePos)))
+                {
+                    FireController.Instance.IgniteTile(_puddlesDownTilemap.GetCellCenterWorld(firePos), FireSides.Down);
+                }
+            }
+
+            for (int i = 0; i < rightPuddles.Count; i++)
+            {
+                firePos = rightPuddles[i];
+                firePos.x += 1;
+
+                if (!FireController.Instance.GetCellsWithFireList.Contains(_puddlesRightTilemap.GetCellCenterWorld(firePos)))
+                {
+                    FireController.Instance.IgniteTile(_puddlesRightTilemap.GetCellCenterWorld(firePos), FireSides.Right);
+                }
+            }
+
+            for (int i = 0; i < leftPuddles.Count; i++)
+            {
+                firePos = leftPuddles[i];
+                firePos.x -= 1;
+
+                if (!FireController.Instance.GetCellsWithFireList.Contains(_puddlesLeftTilemap.GetCellCenterWorld(firePos)))
+                {
+                    FireController.Instance.IgniteTile(_puddlesLeftTilemap.GetCellCenterWorld(firePos), FireSides.Left);
+                }
+            }
+        }
+
+        private List<Vector3Int> FindNearestPuddleTile(Tilemap tilemap)
+        {
+            List<Vector3Int> nearestTilesPosition = new List<Vector3Int>();
+
+            Bounds bounds = _collider.bounds;
+            Vector3Int minPosition = tilemap.WorldToCell(bounds.min);
+            Vector3Int maxPosition = tilemap.WorldToCell(bounds.max);
+
+            for (int x = minPosition.x; x <= maxPosition.x; x++)
+            {
+                for (int y = minPosition.y; y <= maxPosition.y; y++)
+                {
+                    Vector3Int tilePosition = new Vector3Int(x, y, 0);
+                    TileBase tile = tilemap.GetTile(tilePosition);
+
+                    if (tile != null)
+                    {
+                        if (tilemap.GetTile(tilePosition) == _puddleTileUp || tilemap.GetTile(tilePosition) == _puddleTileDown || tilemap.GetTile(tilePosition) == _puddleTileRight || tilemap.GetTile(tilePosition) == _puddleTileLeft)
+                        {
+                            nearestTilesPosition.Add(tilePosition);
+                        }
+                    }
+                }
+            }
+
+            return nearestTilesPosition;
         }
     }
 }

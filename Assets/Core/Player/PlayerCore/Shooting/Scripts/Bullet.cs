@@ -1,13 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PlayerSpace;
 
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float _speed;
 
-    private void Update()
+    private Rigidbody2D _rigidbody;
+
+    private void Awake()
     {
-        transform.Translate(Vector2.down * _speed * Time.deltaTime);
+        _rigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    private void OnEnable()
+    {
+        Vector2 direction = -Player.Instance.GetPlayerShootingComponent.GetShootPoint.up;
+        _rigidbody.velocity = direction * _speed;
     }
 }

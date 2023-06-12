@@ -22,6 +22,9 @@ namespace PlayerSpace
         private bool _smallShotAvailable = true;
         private bool _bigShotAvailable = true;
 
+        public Transform GetHandWithPistol => _handWithPistol;
+        public Transform GetShootPoint => _shootPoint;
+
         private void Update()
         {
             SetRotation();

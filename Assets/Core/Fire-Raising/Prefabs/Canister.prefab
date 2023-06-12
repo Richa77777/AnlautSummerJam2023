@@ -103,6 +103,10 @@ MonoBehaviour:
   _fireDownPrefab: {fileID: 791997445950819167, guid: dd5f6ecadb326964287c7fb7042020c7, type: 3}
   _fireRightPrefab: {fileID: 7572472506985422022, guid: 6c6be629fcb51ee458696f8b7f59e16c, type: 3}
   _fireLeftPrefab: {fileID: 1047470903033227832, guid: d908be7bf9acfb544b3d538fc3ce1f62, type: 3}
+  _puddleTileUp: {fileID: 11400000, guid: 2ade199b6f066b647a0ce1f844c62629, type: 2}
+  _puddleTileDown: {fileID: 11400000, guid: 1d392653f7bd2d5459300e329dc0052e, type: 2}
+  _puddleTileRight: {fileID: 11400000, guid: 0aeb25564ccfe9c439adcd52851f8a8e, type: 2}
+  _puddleTileLeft: {fileID: 11400000, guid: b58b22db48f55f4448101c0e89032e39, type: 2}
 --- !u!95 &6254884369745122158
 Animator:
   serializedVersion: 5
@@ -137,7 +141,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.011493206, y: -0.69918305}
+  m_Offset: {x: 0.011493206, y: -0.12401497}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -148,5 +152,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.3770134, y: 0.11132038}
+  m_Size: {x: 1.3770134, y: 1.2616565}
   m_EdgeRadius: 0

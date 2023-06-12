@@ -75,8 +75,6 @@ public class GasolineBulletBig : MonoBehaviour
 
     private Vector3Int FindNearestTile(Vector3 point)
     {
-        Vector3Int collisionCellPosition = _groundTilemap.WorldToCell(point);
-
         float minDistance = Mathf.Infinity;
         Vector3Int nearestTilePosition = Vector3Int.zero;
 

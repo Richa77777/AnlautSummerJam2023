@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3175265721369775232}
   - component: {fileID: 3175265721369775233}
   m_Layer: 0
-  m_Name: GasolineBigBulletsPool
+  m_Name: GasolineSmallBulletsPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffe01aea07ca6e94b9594759b67be5af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _poolLength: 100
-  _objectPrefab: {fileID: 1897796770409047837, guid: c1a738d7540c333409da238e37195fa1, type: 3}
+  _poolLength: 10
+  _objectPrefab: {fileID: 1897796770409047837, guid: 7aee164e06dfff2439a370a14719e0d4, type: 3}

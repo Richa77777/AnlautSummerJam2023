@@ -8,6 +8,10 @@ namespace PlayerSpace
     {
         public static Player Instance;
 
+        private PlayerShooting _playerShootingComponent;
+
+        public PlayerShooting GetPlayerShootingComponent => _playerShootingComponent;
+
         private void Awake()
         {
             if (Instance == null)
@@ -19,6 +23,8 @@ namespace PlayerSpace
             {
                 Destroy(gameObject);
             }
+
+            _playerShootingComponent = GetComponent<PlayerShooting>();
         }
     }
 }

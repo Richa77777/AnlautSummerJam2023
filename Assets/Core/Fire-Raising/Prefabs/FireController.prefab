@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3563365709323107909
+--- !u!1 &310336709345601936
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,41 +8,43 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3563365709323107911}
-  - component: {fileID: 3563365709323107908}
+  - component: {fileID: 310336709345601942}
+  - component: {fileID: 310336709345601937}
   m_Layer: 0
-  m_Name: PoolsController
+  m_Name: FireController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3563365709323107911
+--- !u!4 &310336709345601942
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3563365709323107909}
+  m_GameObject: {fileID: 310336709345601936}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.105562, y: -1.4421086, z: 0.10460638}
+  m_LocalPosition: {x: 0.011071026, y: -0.9351272, z: -0.006485316}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3563365709323107908
+--- !u!114 &310336709345601937
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3563365709323107909}
+  m_GameObject: {fileID: 310336709345601936}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a62df519aa993a4458be7c21ab48ea71, type: 3}
+  m_Script: {fileID: 11500000, guid: 1546f522eb3c0aa4a90cbbe7cd0f61e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _smallBulletsPoolPrefab: {fileID: 3175265721369775234, guid: 07c309ab1d757174abea6bf1f2ae1a3b, type: 3}
-  _bigBulletsPoolPrefab: {fileID: 3175265721369775234, guid: b2944a1d6515bd34f96abab5755eaf9d, type: 3}
+  _fireUpPrefab: {fileID: 5257789100122762756, guid: 7f41fae23e98f7246ae23f7d5ba414e1, type: 3}
+  _fireDownPrefab: {fileID: 791997445950819167, guid: dd5f6ecadb326964287c7fb7042020c7, type: 3}
+  _fireRightPrefab: {fileID: 7572472506985422022, guid: 6c6be629fcb51ee458696f8b7f59e16c, type: 3}
+  _fireLeftPrefab: {fileID: 1047470903033227832, guid: d908be7bf9acfb544b3d538fc3ce1f62, type: 3}

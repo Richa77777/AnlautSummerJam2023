@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5257789100122762756}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5063403, y: -0.6755769, z: 0}
+  m_LocalPosition: {x: -1, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -98,7 +98,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47d103ac8b95e9a4c8a1f3c4c2d900f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fireBurningTime: 1
+  _fireBurningTime: 5
+  _fireSide: 0
+  _puddleTileUpBurned: {fileID: 11400000, guid: 6d0dd07770d9b8b4c84cfa32d910226e, type: 2}
+  _puddleTileDownBurned: {fileID: 11400000, guid: 75fec995726852a4fafced564b4763e8, type: 2}
+  _puddleTileRightBurned: {fileID: 11400000, guid: 174d4d28e44d04f4baac726b0ae79146, type: 2}
+  _puddleTileLeftBurned: {fileID: 11400000, guid: 848b159c3b3a7d24a9ffe98c6770e829, type: 2}
 --- !u!95 &5257789100122762757
 Animator:
   serializedVersion: 5

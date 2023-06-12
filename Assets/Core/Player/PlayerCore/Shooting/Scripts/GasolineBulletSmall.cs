@@ -96,7 +96,7 @@ public class GasolineBulletSmall : MonoBehaviour
         {
             for (int y = minY; y <= maxY; y++)
             {
-                Vector3Int cellPosition = new Vector3Int(x, y, collisionCellPosition.z);
+                Vector3Int cellPosition = new Vector3Int(x, y, 0);
 
                 if (_groundTilemap.HasTile(cellPosition))
                 {
