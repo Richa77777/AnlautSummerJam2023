@@ -3,115 +3,118 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class GasolineBulletSmall : MonoBehaviour
+namespace BulletsSpace
 {
-    private Tilemap _groundTilemap;
-    private Tilemap _puddlesUpTilemap;
-    private Tilemap _puddlesDownTilemap;
-    private Tilemap _puddlesRightTilemap;
-    private Tilemap _puddlesLeftTilemap;
-    private Tilemap _immortalPuddlesTilemap;
-
-    [SerializeField] private TileBase _puddleTileUp;
-    [SerializeField] private TileBase _puddleTileDown;
-    [SerializeField] private TileBase _puddleTileRight;
-    [SerializeField] private TileBase _puddleTileLeft;
-
-    private void Start()
+    public class GasolineBulletSmall : MonoBehaviour
     {
-        _groundTilemap = GameObject.FindGameObjectWithTag("GroundGrid").GetComponent<Tilemap>();
-        _puddlesUpTilemap = GameObject.FindGameObjectWithTag("PuddlesUpGrid").GetComponent<Tilemap>();
-        _puddlesDownTilemap = GameObject.FindGameObjectWithTag("PuddlesDownGrid").GetComponent<Tilemap>();
-        _puddlesRightTilemap = GameObject.FindGameObjectWithTag("PuddlesRightGrid").GetComponent<Tilemap>();
-        _puddlesLeftTilemap = GameObject.FindGameObjectWithTag("PuddlesLeftGrid").GetComponent<Tilemap>();
-        _immortalPuddlesTilemap = GameObject.FindGameObjectWithTag("ImmortalPuddlesGrid").GetComponent<Tilemap>();
-    }
+        private Tilemap _groundTilemap;
+        private Tilemap _puddlesUpTilemap;
+        private Tilemap _puddlesDownTilemap;
+        private Tilemap _puddlesRightTilemap;
+        private Tilemap _puddlesLeftTilemap;
+        private Tilemap _immortalPuddlesTilemap;
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        ContactPoint2D contact = collision.contacts[0];
-        Vector3 point = contact.point;
+        [SerializeField] private TileBase _puddleTileUp;
+        [SerializeField] private TileBase _puddleTileDown;
+        [SerializeField] private TileBase _puddleTileRight;
+        [SerializeField] private TileBase _puddleTileLeft;
 
-        Vector3Int nearestTilePosition = FindNearestTile(point, 1f); // Используем радиус 1f для поиска ближайшего тайла
-
-        if (nearestTilePosition != Vector3Int.zero)
+        private void Start()
         {
-            Vector2 collisionNormal = contact.normal;
+            _groundTilemap = GameObject.FindGameObjectWithTag("GroundGrid").GetComponent<Tilemap>();
+            _puddlesUpTilemap = GameObject.FindGameObjectWithTag("PuddlesUpGrid").GetComponent<Tilemap>();
+            _puddlesDownTilemap = GameObject.FindGameObjectWithTag("PuddlesDownGrid").GetComponent<Tilemap>();
+            _puddlesRightTilemap = GameObject.FindGameObjectWithTag("PuddlesRightGrid").GetComponent<Tilemap>();
+            _puddlesLeftTilemap = GameObject.FindGameObjectWithTag("PuddlesLeftGrid").GetComponent<Tilemap>();
+            _immortalPuddlesTilemap = GameObject.FindGameObjectWithTag("ImmortalPuddlesGrid").GetComponent<Tilemap>();
+        }
 
-            // Проверка направления попадания и установка соответствующего тайла на _puddlesTilemap
-            if (Mathf.Abs(collisionNormal.x) > Mathf.Abs(collisionNormal.y))
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            ContactPoint2D contact = collision.contacts[0];
+            Vector3 point = contact.point;
+
+            Vector3Int nearestTilePosition = FindNearestTile(point, 1f); // Используем радиус 1f для поиска ближайшего тайла
+
+            if (nearestTilePosition != Vector3Int.zero)
             {
-                if (collisionNormal.x > 0)
+                Vector2 collisionNormal = contact.normal;
+
+                // Проверка направления попадания и установка соответствующего тайла на _puddlesTilemap
+                if (Mathf.Abs(collisionNormal.x) > Mathf.Abs(collisionNormal.y))
                 {
-                    if (_immortalPuddlesTilemap.GetTile(nearestTilePosition) != _puddleTileRight)
+                    if (collisionNormal.x > 0)
                     {
-                        _puddlesRightTilemap.SetTile(nearestTilePosition, _puddleTileRight);
+                        if (_immortalPuddlesTilemap.GetTile(nearestTilePosition) != _puddleTileRight)
+                        {
+                            _puddlesRightTilemap.SetTile(nearestTilePosition, _puddleTileRight);
+                        }
+                    }
+                    else
+                    {
+                        if (_immortalPuddlesTilemap.GetTile(nearestTilePosition) != _puddleTileLeft)
+                        {
+                            _puddlesLeftTilemap.SetTile(nearestTilePosition, _puddleTileLeft);
+                        }
                     }
                 }
                 else
                 {
-                    if (_immortalPuddlesTilemap.GetTile(nearestTilePosition) != _puddleTileLeft)
+                    if (collisionNormal.y > 0)
                     {
-                        _puddlesLeftTilemap.SetTile(nearestTilePosition, _puddleTileLeft);
+                        if (_immortalPuddlesTilemap.GetTile(nearestTilePosition) != _puddleTileUp)
+                        {
+                            _puddlesUpTilemap.SetTile(nearestTilePosition, _puddleTileUp);
+                        }
                     }
-               }
-            }
-            else
-            {
-                if (collisionNormal.y > 0)
-                {
-                    if (_immortalPuddlesTilemap.GetTile(nearestTilePosition) != _puddleTileUp)
+                    else
                     {
-                        _puddlesUpTilemap.SetTile(nearestTilePosition, _puddleTileUp);
-                    }
-                }
-                else
-                {
-                    if (_immortalPuddlesTilemap.GetTile(nearestTilePosition) != _puddleTileDown)
-                    {
-                        _puddlesDownTilemap.SetTile(nearestTilePosition, _puddleTileDown);
+                        if (_immortalPuddlesTilemap.GetTile(nearestTilePosition) != _puddleTileDown)
+                        {
+                            _puddlesDownTilemap.SetTile(nearestTilePosition, _puddleTileDown);
+                        }
                     }
                 }
             }
+
+            gameObject.SetActive(false);
         }
 
-        gameObject.SetActive(false);
-    }
-
-    private Vector3Int FindNearestTile(Vector3 point, float radius)
-    {
-        Vector3Int collisionCellPosition = _groundTilemap.WorldToCell(point);
-
-        // Определение границ поиска вокруг позиции попадания
-        int minX = Mathf.FloorToInt(collisionCellPosition.x - radius);
-        int maxX = Mathf.CeilToInt(collisionCellPosition.x + radius);
-        int minY = Mathf.FloorToInt(collisionCellPosition.y - radius);
-        int maxY = Mathf.CeilToInt(collisionCellPosition.y + radius);
-
-        float minDistance = Mathf.Infinity;
-        Vector3Int nearestTilePosition = Vector3Int.zero;
-
-        // Поиск ближайшего тайла в указанном радиусе
-        for (int x = minX; x <= maxX; x++)
+        private Vector3Int FindNearestTile(Vector3 point, float radius)
         {
-            for (int y = minY; y <= maxY; y++)
+            Vector3Int collisionCellPosition = _groundTilemap.WorldToCell(point);
+
+            // Определение границ поиска вокруг позиции попадания
+            int minX = Mathf.FloorToInt(collisionCellPosition.x - radius);
+            int maxX = Mathf.CeilToInt(collisionCellPosition.x + radius);
+            int minY = Mathf.FloorToInt(collisionCellPosition.y - radius);
+            int maxY = Mathf.CeilToInt(collisionCellPosition.y + radius);
+
+            float minDistance = Mathf.Infinity;
+            Vector3Int nearestTilePosition = Vector3Int.zero;
+
+            // Поиск ближайшего тайла в указанном радиусе
+            for (int x = minX; x <= maxX; x++)
             {
-                Vector3Int cellPosition = new Vector3Int(x, y, 0);
-
-                if (_groundTilemap.HasTile(cellPosition))
+                for (int y = minY; y <= maxY; y++)
                 {
-                    Vector3 tileCenter = _groundTilemap.CellToWorld(cellPosition) + new Vector3(0.5f, 0.5f, 0f);
-                    float distance = Vector3.Distance(point, tileCenter);
+                    Vector3Int cellPosition = new Vector3Int(x, y, 0);
 
-                    if (distance < minDistance)
+                    if (_groundTilemap.HasTile(cellPosition))
                     {
-                        minDistance = distance;
-                        nearestTilePosition = cellPosition;
+                        Vector3 tileCenter = _groundTilemap.CellToWorld(cellPosition) + new Vector3(0.5f, 0.5f, 0f);
+                        float distance = Vector3.Distance(point, tileCenter);
+
+                        if (distance < minDistance)
+                        {
+                            minDistance = distance;
+                            nearestTilePosition = cellPosition;
+                        }
                     }
                 }
             }
-        }
 
-        return nearestTilePosition;
+            return nearestTilePosition;
+        }
     }
 }

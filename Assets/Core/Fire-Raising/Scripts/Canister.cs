@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace FireRaising
+namespace FireSpace
 {
     public class Canister : MonoBehaviour
     {
@@ -41,7 +41,7 @@ namespace FireRaising
 
             //    if (!FireController.Instance.GetCellsWithFireList.Contains(pos))
             //    {
-            //        FireController.Instance.IgniteTile(_puddlesUpTilemap.GetCellCenterWorld(pos), fire);
+            //        FireController.Instance.TryIgniteTile(_puddlesUpTilemap.GetCellCenterWorld(pos), fire);
             //    }
             //}
             #endregion
@@ -58,10 +58,7 @@ namespace FireRaising
                 firePos = upPuddles[i];
                 firePos.y += 1;
 
-                if (!FireController.Instance.GetCellsWithFireList.Contains(_puddlesUpTilemap.GetCellCenterWorld(firePos)))
-                {
-                    FireController.Instance.IgniteTile(_puddlesUpTilemap.GetCellCenterWorld(firePos), FireSides.Up);
-                }
+                FireController.Instance.TryIgniteTile(_puddlesUpTilemap.GetCellCenterWorld(firePos), FireSides.Up);
             }
 
             for (int i = 0; i < downPuddles.Count; i++)
@@ -69,10 +66,7 @@ namespace FireRaising
                 firePos = downPuddles[i];
                 firePos.y -= 1;
 
-                if (!FireController.Instance.GetCellsWithFireList.Contains(_puddlesDownTilemap.GetCellCenterWorld(firePos)))
-                {
-                    FireController.Instance.IgniteTile(_puddlesDownTilemap.GetCellCenterWorld(firePos), FireSides.Down);
-                }
+                FireController.Instance.TryIgniteTile(_puddlesDownTilemap.GetCellCenterWorld(firePos), FireSides.Down);
             }
 
             for (int i = 0; i < rightPuddles.Count; i++)
@@ -80,10 +74,7 @@ namespace FireRaising
                 firePos = rightPuddles[i];
                 firePos.x += 1;
 
-                if (!FireController.Instance.GetCellsWithFireList.Contains(_puddlesRightTilemap.GetCellCenterWorld(firePos)))
-                {
-                    FireController.Instance.IgniteTile(_puddlesRightTilemap.GetCellCenterWorld(firePos), FireSides.Right);
-                }
+                FireController.Instance.TryIgniteTile(_puddlesRightTilemap.GetCellCenterWorld(firePos), FireSides.Right);
             }
 
             for (int i = 0; i < leftPuddles.Count; i++)
@@ -91,10 +82,7 @@ namespace FireRaising
                 firePos = leftPuddles[i];
                 firePos.x -= 1;
 
-                if (!FireController.Instance.GetCellsWithFireList.Contains(_puddlesLeftTilemap.GetCellCenterWorld(firePos)))
-                {
-                    FireController.Instance.IgniteTile(_puddlesLeftTilemap.GetCellCenterWorld(firePos), FireSides.Left);
-                }
+                FireController.Instance.TryIgniteTile(_puddlesLeftTilemap.GetCellCenterWorld(firePos), FireSides.Left);
             }
         }
 

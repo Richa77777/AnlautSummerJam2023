@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayerSpace;
 
-public class Bullet : MonoBehaviour
+namespace BulletsSpace
 {
-    [SerializeField] private float _speed;
-
-    private Rigidbody2D _rigidbody;
-
-    private void Awake()
+    public class Bullet : MonoBehaviour
     {
-        _rigidbody = GetComponent<Rigidbody2D>();
-    }
+        [SerializeField] private float _speed;
 
-    private void OnEnable()
-    {
-        Vector2 direction = -Player.Instance.GetPlayerShootingComponent.GetShootPoint.up;
-        _rigidbody.velocity = direction * _speed;
+        private Rigidbody2D _rigidbody;
+
+        private void Awake()
+        {
+            _rigidbody = GetComponent<Rigidbody2D>();
+        }
+
+        private void OnEnable()
+        {
+            Vector2 direction = -Player.Instance.GetPlayerShootingComponent.GetShootPoint.up;
+            _rigidbody.velocity = direction * _speed;
+        }
     }
 }

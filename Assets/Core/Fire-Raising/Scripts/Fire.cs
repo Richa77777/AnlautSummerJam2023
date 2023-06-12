@@ -1,10 +1,11 @@
+using PlayerSpace;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace FireRaising
+namespace FireSpace
 {
     public class Fire : MonoBehaviour
     {
@@ -46,52 +47,162 @@ namespace FireRaising
         private void OnEnable()
         {
             StartCoroutine(FireCycle());
-            StartCoroutine(Spreading());
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.gameObject.GetComponent<Player>() && _firePhase != FirePhases.End)
+            {
+                StopAllCoroutines();
+                StartCoroutine(FiringEnd());
+            }
+        }
+
+        private void Update()
+        {
+            if (_firePhase != FirePhases.End)
+            {
+                StartCoroutine(Spreading());
+            }
         }
 
         private IEnumerator Spreading()
         {
-            while (true)
+            Vector3Int rightTile = Vector3Int.FloorToInt(new Vector3(_firePos.x + 1, _firePos.y, 0)); ;
+            Vector3Int leftTile = Vector3Int.FloorToInt(new Vector3(_firePos.x - 1, _firePos.y, 0)); ;
+            Vector3Int upTile = Vector3Int.FloorToInt(new Vector3(_firePos.x, _firePos.y + 1, 0)); ;
+            Vector3Int downTile = Vector3Int.FloorToInt(new Vector3(_firePos.x, _firePos.y - 1, 0)); ;
+
+            if (_fireSide == FireSides.Up)
             {
-                if (_firePhase != FirePhases.End)
+                if (_puddlesUpTilemap.HasTile(rightTile) == true && IsBurned(_puddlesUpTilemap.GetTile(rightTile)) == false)
                 {
-                    Vector3Int rightTile = Vector3Int.FloorToInt(new Vector3(_firePos.x + 1, _firePos.y - 1, 0));
-                    Vector3Int leftTile = Vector3Int.FloorToInt(new Vector3(_firePos.x - 1, _firePos.y - 1, 0));
+                    yield return new WaitForSeconds(_fireSpreadingTime);
 
-                    Vector3Int firePos;
+                    FireController.Instance.TryIgniteTile(_puddlesUpTilemap.GetCellCenterWorld(new Vector3Int(rightTile.x, rightTile.y + 1, 0)), FireSides.Up);
+                }
 
-                    if (_fireSide == FireSides.Up)
-                    {
-                        if (_puddlesUpTilemap.HasTile(rightTile) == true && IsBurned(_puddlesUpTilemap.GetTile(rightTile)) == false)
-                        {
-                            firePos = rightTile;
-                            firePos.y += 1;
+                if (_puddlesUpTilemap.HasTile(leftTile) == true && IsBurned(_puddlesUpTilemap.GetTile(leftTile)) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
 
-                            if (!FireController.Instance.GetCellsWithFireList.Contains(_puddlesUpTilemap.GetCellCenterWorld(firePos)))
-                            {
-                                yield return new WaitForSeconds(_fireSpreadingTime);
-                                FireController.Instance.IgniteTile(_puddlesUpTilemap.GetCellCenterWorld(firePos), FireSides.Up);
-                            }
-                        }
+                    FireController.Instance.TryIgniteTile(_puddlesUpTilemap.GetCellCenterWorld(new Vector3Int(leftTile.x, leftTile.y + 1, 0)), FireSides.Up);
+                }
 
-                        if (_puddlesUpTilemap.HasTile(leftTile) == true && IsBurned(_puddlesUpTilemap.GetTile(leftTile)) == false)
-                        {
-                            firePos = leftTile;
-                            firePos.y += 1;
+                if (_puddlesRightTilemap.HasTile(new Vector3Int(leftTile.x, leftTile.y + 1)) == true && IsBurned(_puddlesRightTilemap.GetTile(new Vector3Int(leftTile.x, leftTile.y + 1))) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
 
-                            if (!FireController.Instance.GetCellsWithFireList.Contains(_puddlesUpTilemap.GetCellCenterWorld(firePos)))
-                            {
-                                yield return new WaitForSeconds(_fireSpreadingTime);
-                                FireController.Instance.IgniteTile(_puddlesUpTilemap.GetCellCenterWorld(firePos), FireSides.Up);
-                            }
-                        }
-                    }
+                    FireController.Instance.TryIgniteTile(_puddlesUpTilemap.GetCellCenterWorld(new Vector3Int(leftTile.x + 1, leftTile.y + 1)), FireSides.Right);
+                }
+
+                if (_puddlesLeftTilemap.HasTile(new Vector3Int(rightTile.x, rightTile.y + 1)) == true && IsBurned(_puddlesLeftTilemap.GetTile(new Vector3Int(rightTile.x, rightTile.y + 1))) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
+
+                    FireController.Instance.TryIgniteTile(_puddlesUpTilemap.GetCellCenterWorld(new Vector3Int(rightTile.x - 1, rightTile.y + 1)), FireSides.Left);
+                }
+            }
+
+            if (_fireSide == FireSides.Down)
+            {
+                if (_puddlesDownTilemap.HasTile(rightTile) == true && IsBurned(_puddlesDownTilemap.GetTile(rightTile)) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
+
+                    FireController.Instance.TryIgniteTile(_puddlesDownTilemap.GetCellCenterWorld(new Vector3Int(rightTile.x, rightTile.y - 1, 0)), FireSides.Down);
+                }
+
+                if (_puddlesDownTilemap.HasTile(leftTile) == true && IsBurned(_puddlesDownTilemap.GetTile(leftTile)) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
+
+                    FireController.Instance.TryIgniteTile(_puddlesDownTilemap.GetCellCenterWorld(new Vector3Int(leftTile.x, leftTile.y - 1, 0)), FireSides.Down);
+                }
+
+                if (_puddlesRightTilemap.HasTile(new Vector3Int(leftTile.x, leftTile.y - 1)) == true && IsBurned(_puddlesRightTilemap.GetTile(new Vector3Int(leftTile.x, leftTile.y - 1))) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
+
+                    FireController.Instance.TryIgniteTile(_puddlesDownTilemap.GetCellCenterWorld(new Vector3Int(leftTile.x + 1, leftTile.y - 1)), FireSides.Right);
+                }
+
+                if (_puddlesLeftTilemap.HasTile(new Vector3Int(rightTile.x, rightTile.y - 1)) == true && IsBurned(_puddlesLeftTilemap.GetTile(new Vector3Int(rightTile.x, rightTile.y - 1))) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
+
+                    FireController.Instance.TryIgniteTile(_puddlesDownTilemap.GetCellCenterWorld(new Vector3Int(rightTile.x - 1, rightTile.y - 1)), FireSides.Left);
+                }
+            }
+
+            if (_fireSide == FireSides.Right)
+            {
+                if (_puddlesRightTilemap.HasTile(upTile) == true && IsBurned(_puddlesRightTilemap.GetTile(upTile)) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
+
+                    FireController.Instance.TryIgniteTile(_puddlesRightTilemap.GetCellCenterWorld(new Vector3Int(upTile.x + 1, upTile.y, 0)), FireSides.Right);
+                }
+
+                if (_puddlesRightTilemap.HasTile(downTile) == true && IsBurned(_puddlesRightTilemap.GetTile(downTile)) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
+
+                    FireController.Instance.TryIgniteTile(_puddlesRightTilemap.GetCellCenterWorld(new Vector3Int(downTile.x + 1, downTile.y, 0)), FireSides.Right);
+                }
+
+                if (_puddlesUpTilemap.HasTile(new Vector3Int(downTile.x + 1, downTile.y - 1)) == true && IsBurned(_puddlesUpTilemap.GetTile(new Vector3Int(downTile.x + 1, downTile.y - 1))) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
+
+                    FireController.Instance.TryIgniteTile(_puddlesRightTilemap.GetCellCenterWorld(new Vector3Int(downTile.x + 1, downTile.y)), FireSides.Up);
+                }
+
+                if (_puddlesDownTilemap.HasTile(new Vector3Int(upTile.x + 1, upTile.y + 1)) == true && IsBurned(_puddlesDownTilemap.GetTile(new Vector3Int(upTile.x + 1, upTile.y + 1))) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
+
+                    FireController.Instance.TryIgniteTile(_puddlesRightTilemap.GetCellCenterWorld(new Vector3Int(upTile.x + 1, upTile.y)), FireSides.Down);
+                }
+            }
+
+            if (_fireSide == FireSides.Left)
+            {
+                if (_puddlesLeftTilemap.HasTile(upTile) == true && IsBurned(_puddlesLeftTilemap.GetTile(upTile)) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
+
+                    FireController.Instance.TryIgniteTile(_puddlesLeftTilemap.GetCellCenterWorld(new Vector3Int(upTile.x - 1, upTile.y, 0)), FireSides.Left);
+                }
+
+                if (_puddlesLeftTilemap.HasTile(downTile) == true && IsBurned(_puddlesLeftTilemap.GetTile(downTile)) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
+
+                    FireController.Instance.TryIgniteTile(_puddlesLeftTilemap.GetCellCenterWorld(new Vector3Int(downTile.x - 1, downTile.y, 0)), FireSides.Left);
+                }
+
+                if (_puddlesUpTilemap.HasTile(new Vector3Int(downTile.x - 1, downTile.y)) == true && IsBurned(_puddlesUpTilemap.GetTile(new Vector3Int(downTile.x - 1, downTile.y))) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
+
+                    FireController.Instance.TryIgniteTile(_puddlesLeftTilemap.GetCellCenterWorld(new Vector3Int(downTile.x - 1, downTile.y + 1)), FireSides.Up);
+                }
+
+                if (_puddlesDownTilemap.HasTile(new Vector3Int(upTile.x - 1, upTile.y)) == true && IsBurned(_puddlesDownTilemap.GetTile(new Vector3Int(upTile.x - 1, upTile.y))) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
+
+                    FireController.Instance.TryIgniteTile(_puddlesLeftTilemap.GetCellCenterWorld(new Vector3Int(upTile.x - 1, upTile.y - 1)), FireSides.Down);
                 }
             }
         }
 
-        public void FiringEnd()
+        private IEnumerator FiringEnd()
         {
+            _animator.Play("End", 0, 0);
+            _firePhase = FirePhases.End;
+
             Vector3Int pos = Vector3Int.zero;
 
             switch (_fireSide)
@@ -101,6 +212,7 @@ namespace FireRaising
                     pos.y -= 1;
 
                     _puddlesUpTilemap.SetTile(pos, _puddleTileUpBurned);
+                    BurnedTilesController.Instance.BurnedTileLiftCycleStart(pos, _puddlesUpTilemap);
                     break;
 
                 case FireSides.Down:
@@ -108,6 +220,7 @@ namespace FireRaising
                     pos.y += 1;
 
                     _puddlesDownTilemap.SetTile(pos, _puddleTileDownBurned);
+                    BurnedTilesController.Instance.BurnedTileLiftCycleStart(pos, _puddlesDownTilemap);
                     break;
 
                 case FireSides.Right:
@@ -115,6 +228,7 @@ namespace FireRaising
                     pos.x -= 1;
 
                     _puddlesRightTilemap.SetTile(pos, _puddleTileRightBurned);
+                    BurnedTilesController.Instance.BurnedTileLiftCycleStart(pos, _puddlesRightTilemap);
                     break;
 
                 case FireSides.Left:
@@ -122,8 +236,14 @@ namespace FireRaising
                     pos.x += 1;
 
                     _puddlesLeftTilemap.SetTile(pos, _puddleTileLeftBurned);
+                    BurnedTilesController.Instance.BurnedTileLiftCycleStart(pos, _puddlesLeftTilemap);
                     break;
             }
+
+            yield return new WaitForSeconds(_animator.GetCurrentAnimatorClipInfo(0).Length - 0.75f);
+
+            FireController.Instance.FiringEnd(_firePos);
+            gameObject.SetActive(false);
         }
 
         private IEnumerator FireCycle()
@@ -138,15 +258,7 @@ namespace FireRaising
 
             yield return new WaitForSeconds(_fireBurningTime);
 
-            _animator.Play("End", 0, 0);
-            _firePhase = FirePhases.End;
-
-            FiringEnd();
-
-            yield return new WaitForSeconds(_animator.GetCurrentAnimatorClipInfo(0).Length - 0.75f);
-
-            FireController.Instance.FiringEnd(_firePos);
-            gameObject.SetActive(false);
+            yield return StartCoroutine(FiringEnd());
         }
 
         private bool IsBurned(TileBase tile)

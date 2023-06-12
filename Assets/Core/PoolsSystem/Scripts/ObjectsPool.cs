@@ -2,39 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectsPool : MonoBehaviour
+namespace PoolSpace
 {
-    [SerializeField] private int _poolLength;
-    [SerializeField] private GameObject _objectPrefab;
-
-    private List<GameObject> _objectsPool = new List<GameObject>();
-
-    private void Awake()
+    public class ObjectsPool : MonoBehaviour
     {
-        GameObject obj;
+        [SerializeField] private int _poolLength;
+        [SerializeField] private GameObject _objectPrefab;
 
-        for (int i = 0; i < _poolLength; i++)
+        private List<GameObject> _objectsPool = new List<GameObject>();
+
+        private void Awake()
         {
-            obj = Instantiate(_objectPrefab, transform, true);
-            obj.SetActive(false);
+            GameObject obj;
 
-            _objectsPool.Add(obj);
-        }
-    }
-
-    public GameObject GetObjectFromPool()
-    {
-        GameObject freeObject = null;
-
-        for (int i = 0; i < _objectsPool.Count; i++)
-        {
-            if (_objectsPool[i].activeInHierarchy == false)
+            for (int i = 0; i < _poolLength; i++)
             {
-                freeObject = _objectsPool[i];
-                break;
+                obj = Instantiate(_objectPrefab, transform, true);
+                obj.SetActive(false);
+
+                _objectsPool.Add(obj);
             }
         }
 
-        return freeObject;
+        public GameObject GetObjectFromPool()
+        {
+            GameObject freeObject = null;
+
+            for (int i = 0; i < _objectsPool.Count; i++)
+            {
+                if (_objectsPool[i].activeInHierarchy == false)
+                {
+                    freeObject = _objectsPool[i];
+                    break;
+                }
+            }
+
+            return freeObject;
+        }
     }
 }

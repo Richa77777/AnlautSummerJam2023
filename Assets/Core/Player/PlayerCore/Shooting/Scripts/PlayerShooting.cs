@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PoolSpace;
 
 namespace PlayerSpace
 {
@@ -21,29 +22,34 @@ namespace PlayerSpace
 
         private bool _smallShotAvailable = true;
         private bool _bigShotAvailable = true;
+        private bool _shootingAvailable = true;
 
         public Transform GetHandWithPistol => _handWithPistol;
         public Transform GetShootPoint => _shootPoint;
+        public bool ShootingAvailable { set => _shootingAvailable = value; }
 
         private void Update()
         {
             SetRotation();
 
-            if (Input.GetMouseButtonDown(0))
+            if (_shootingAvailable == true)
             {
-                if (_smallShotAvailable == true)
+                if (Input.GetMouseButtonDown(0))
                 {
-                    _smallShotAvailable = false;
-                    SmallShot();
+                    if (_smallShotAvailable == true)
+                    {
+                        _smallShotAvailable = false;
+                        SmallShot();
+                    }
                 }
-            }
 
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                if (_bigShotAvailable == true)
+                if (Input.GetKeyDown(KeyCode.E))
                 {
-                    _bigShotAvailable = false;
-                    BigShot();
+                    if (_bigShotAvailable == true)
+                    {
+                        _bigShotAvailable = false;
+                        BigShot();
+                    }
                 }
             }
         }
