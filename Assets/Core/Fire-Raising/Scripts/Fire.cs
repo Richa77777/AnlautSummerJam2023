@@ -93,14 +93,21 @@ namespace FireSpace
                 {
                     yield return new WaitForSeconds(_fireSpreadingTime);
 
-                    FireController.Instance.TryIgniteTile(_puddlesUpTilemap.GetCellCenterWorld(new Vector3Int(leftTile.x + 1, leftTile.y + 1)), FireSides.Right);
+                    FireController.Instance.TryIgniteTile(_puddlesRightTilemap.GetCellCenterWorld(new Vector3Int(leftTile.x + 1, leftTile.y + 1)), FireSides.Right);
                 }
 
                 if (_puddlesLeftTilemap.HasTile(new Vector3Int(rightTile.x, rightTile.y + 1)) == true && IsBurned(_puddlesLeftTilemap.GetTile(new Vector3Int(rightTile.x, rightTile.y + 1))) == false)
                 {
                     yield return new WaitForSeconds(_fireSpreadingTime);
 
-                    FireController.Instance.TryIgniteTile(_puddlesUpTilemap.GetCellCenterWorld(new Vector3Int(rightTile.x - 1, rightTile.y + 1)), FireSides.Left);
+                    FireController.Instance.TryIgniteTile(_puddlesLeftTilemap.GetCellCenterWorld(new Vector3Int(rightTile.x - 1, rightTile.y + 1)), FireSides.Left);
+                }
+
+                if (_puddlesDownTilemap.HasTile(new Vector3Int(upTile.x, upTile.y + 1)) == true && IsBurned(_puddlesDownTilemap.GetTile(new Vector3Int(upTile.x, upTile.y + 1))) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
+
+                    FireController.Instance.TryIgniteTile(_puddlesDownTilemap.GetCellCenterWorld(new Vector3Int(upTile.x, upTile.y, 0)), FireSides.Down);
                 }
             }
 
@@ -124,14 +131,28 @@ namespace FireSpace
                 {
                     yield return new WaitForSeconds(_fireSpreadingTime);
 
-                    FireController.Instance.TryIgniteTile(_puddlesDownTilemap.GetCellCenterWorld(new Vector3Int(leftTile.x + 1, leftTile.y - 1)), FireSides.Right);
+                    FireController.Instance.TryIgniteTile(_puddlesRightTilemap.GetCellCenterWorld(new Vector3Int(leftTile.x + 1, leftTile.y - 1)), FireSides.Right);
                 }
 
                 if (_puddlesLeftTilemap.HasTile(new Vector3Int(rightTile.x, rightTile.y - 1)) == true && IsBurned(_puddlesLeftTilemap.GetTile(new Vector3Int(rightTile.x, rightTile.y - 1))) == false)
                 {
                     yield return new WaitForSeconds(_fireSpreadingTime);
 
-                    FireController.Instance.TryIgniteTile(_puddlesDownTilemap.GetCellCenterWorld(new Vector3Int(rightTile.x - 1, rightTile.y - 1)), FireSides.Left);
+                    FireController.Instance.TryIgniteTile(_puddlesLeftTilemap.GetCellCenterWorld(new Vector3Int(rightTile.x - 1, rightTile.y - 1)), FireSides.Left);
+                }
+
+                if (_puddlesUpTilemap.HasTile(new Vector3Int(downTile.x, downTile.y - 1)) == true && IsBurned(_puddlesUpTilemap.GetTile(new Vector3Int(downTile.x, downTile.y - 1))) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
+
+                    FireController.Instance.TryIgniteTile(_puddlesUpTilemap.GetCellCenterWorld(new Vector3Int(downTile.x, downTile.y, 0)), FireSides.Up);
+                }
+
+                if (_puddlesLeftTilemap.HasTile(new Vector3Int(downTile.x, downTile.y + 1)) == true && IsBurned(_puddlesLeftTilemap.GetTile(new Vector3Int(downTile.x, downTile.y + 1))) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
+
+                    FireController.Instance.TryIgniteTile(_puddlesLeftTilemap.GetCellCenterWorld(new Vector3Int(downTile.x - 1, downTile.y + 1)), FireSides.Left);
                 }
             }
 
@@ -155,14 +176,21 @@ namespace FireSpace
                 {
                     yield return new WaitForSeconds(_fireSpreadingTime);
 
-                    FireController.Instance.TryIgniteTile(_puddlesRightTilemap.GetCellCenterWorld(new Vector3Int(downTile.x + 1, downTile.y)), FireSides.Up);
+                    FireController.Instance.TryIgniteTile(_puddlesUpTilemap.GetCellCenterWorld(new Vector3Int(downTile.x + 1, downTile.y)), FireSides.Up);
                 }
 
                 if (_puddlesDownTilemap.HasTile(new Vector3Int(upTile.x + 1, upTile.y + 1)) == true && IsBurned(_puddlesDownTilemap.GetTile(new Vector3Int(upTile.x + 1, upTile.y + 1))) == false)
                 {
                     yield return new WaitForSeconds(_fireSpreadingTime);
 
-                    FireController.Instance.TryIgniteTile(_puddlesRightTilemap.GetCellCenterWorld(new Vector3Int(upTile.x + 1, upTile.y)), FireSides.Down);
+                    FireController.Instance.TryIgniteTile(_puddlesDownTilemap.GetCellCenterWorld(new Vector3Int(upTile.x + 1, upTile.y)), FireSides.Down);
+                }
+
+                if (_puddlesLeftTilemap.HasTile(new Vector3Int(rightTile.x + 1, rightTile.y)) == true && IsBurned(_puddlesLeftTilemap.GetTile(new Vector3Int(rightTile.x + 1, rightTile.y))) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
+
+                    FireController.Instance.TryIgniteTile(_puddlesLeftTilemap.GetCellCenterWorld(new Vector3Int(rightTile.x, rightTile.y, 0)), FireSides.Left);
                 }
             }
 
@@ -186,14 +214,21 @@ namespace FireSpace
                 {
                     yield return new WaitForSeconds(_fireSpreadingTime);
 
-                    FireController.Instance.TryIgniteTile(_puddlesLeftTilemap.GetCellCenterWorld(new Vector3Int(downTile.x - 1, downTile.y + 1)), FireSides.Up);
+                    FireController.Instance.TryIgniteTile(_puddlesUpTilemap.GetCellCenterWorld(new Vector3Int(downTile.x - 1, downTile.y + 1)), FireSides.Up);
                 }
 
                 if (_puddlesDownTilemap.HasTile(new Vector3Int(upTile.x - 1, upTile.y)) == true && IsBurned(_puddlesDownTilemap.GetTile(new Vector3Int(upTile.x - 1, upTile.y))) == false)
                 {
                     yield return new WaitForSeconds(_fireSpreadingTime);
 
-                    FireController.Instance.TryIgniteTile(_puddlesLeftTilemap.GetCellCenterWorld(new Vector3Int(upTile.x - 1, upTile.y - 1)), FireSides.Down);
+                    FireController.Instance.TryIgniteTile(_puddlesDownTilemap.GetCellCenterWorld(new Vector3Int(upTile.x - 1, upTile.y - 1)), FireSides.Down);
+                }
+
+                if (_puddlesRightTilemap.HasTile(new Vector3Int(leftTile.x - 1, leftTile.y)) == true && IsBurned(_puddlesRightTilemap.GetTile(new Vector3Int(leftTile.x - 1, leftTile.y))) == false)
+                {
+                    yield return new WaitForSeconds(_fireSpreadingTime);
+
+                    FireController.Instance.TryIgniteTile(_puddlesRightTilemap.GetCellCenterWorld(new Vector3Int(leftTile.x, leftTile.y, 0)), FireSides.Left);
                 }
             }
         }
@@ -242,7 +277,7 @@ namespace FireSpace
 
             yield return new WaitForSeconds(_animator.GetCurrentAnimatorClipInfo(0).Length - 0.75f);
 
-            FireController.Instance.FiringEnd(_firePos);
+            FireController.Instance.FiringEnd(_firePos, _fireSide);
             gameObject.SetActive(false);
         }
 

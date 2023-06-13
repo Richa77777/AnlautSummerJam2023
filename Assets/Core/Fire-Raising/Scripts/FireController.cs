@@ -9,13 +9,13 @@ namespace FireSpace
     {
         public static FireController Instance;
 
-        [SerializeField] private List<Vector3> _cellsWithFire = new List<Vector3>();
+        [SerializeField] private List<TwoValueContainer<Vector3, FireSides>> _cellsWithFire = new List<TwoValueContainer<Vector3, FireSides>>();
 
-        public List<Vector3> GetCellsWithFireList
+        public List<TwoValueContainer<Vector3, FireSides>> GetCellsWithFireList
         {
             get
             {
-                return new List<Vector3>(_cellsWithFire);
+                return new List<TwoValueContainer<Vector3, FireSides>>(_cellsWithFire);
             }
         }
 
@@ -62,18 +62,28 @@ namespace FireSpace
                     break;
             }
 
+            _cellsWithFire.Add(new TwoValueContainer<Vector3, FireSides>(newFirePos, fireSide));
+
             firePrefab.transform.position = firePos;
             firePrefab.SetActive(true);
             firePrefab.GetComponent<Fire>().FirePos = newFirePos;
-
-            _cellsWithFire.Add(newFirePos);
         }
 
         public void TryIgniteTile(Vector3 firePos, FireSides fireSide)
         {
             if (fireSide == FireSides.Up)
             {
-                if (!_cellsWithFire.Contains(new Vector3(firePos.x, firePos.y - 1)))
+                bool alreadyExists = false;
+                foreach (var container in _cellsWithFire)
+                {
+                    if (container.Value1 == new Vector3(firePos.x, firePos.y - 1) && container.Value2 == fireSide)
+                    {
+                        alreadyExists = true;
+                        break;
+                    }
+                }
+
+                if (!alreadyExists)
                 {
                     IgniteTile(firePos, fireSide);
                 }
@@ -81,7 +91,17 @@ namespace FireSpace
 
             else if (fireSide == FireSides.Down)
             {
-                if (!_cellsWithFire.Contains(new Vector3(firePos.x, firePos.y + 1)))
+                bool alreadyExists = false;
+                foreach (var container in _cellsWithFire)
+                {
+                    if (container.Value1 == new Vector3(firePos.x, firePos.y + 1) && container.Value2 == fireSide)
+                    {
+                        alreadyExists = true;
+                        break;
+                    }
+                }
+
+                if (!alreadyExists)
                 {
                     IgniteTile(firePos, fireSide);
                 }
@@ -89,7 +109,17 @@ namespace FireSpace
 
             else if (fireSide == FireSides.Right)
             {
-                if (!_cellsWithFire.Contains(new Vector3(firePos.x - 1, firePos.y)))
+                bool alreadyExists = false;
+                foreach (var container in _cellsWithFire)
+                {
+                    if (container.Value1 == new Vector3(firePos.x - 1, firePos.y) && container.Value2 == fireSide)
+                    {
+                        alreadyExists = true;
+                        break;
+                    }
+                }
+
+                if (!alreadyExists)
                 {
                     IgniteTile(firePos, fireSide);
                 }
@@ -97,16 +127,38 @@ namespace FireSpace
 
             else if (fireSide == FireSides.Left)
             {
-                if (!_cellsWithFire.Contains(new Vector3(firePos.x + 1, firePos.y)))
+                bool alreadyExists = false;
+                foreach (var container in _cellsWithFire)
+                {
+                    if (container.Value1 == new Vector3(firePos.x + 1, firePos.y) && container.Value2 == fireSide)
+                    {
+                        alreadyExists = true;
+                        break;
+                    }
+                }
+
+                if (!alreadyExists)
                 {
                     IgniteTile(firePos, fireSide);
                 }
             }
         }
 
-        public void FiringEnd(Vector3 firePos)
+        public void FiringEnd(Vector3 firePos, FireSides fireSide)
         {
-            _cellsWithFire.Remove(firePos);
+            _cellsWithFire.Remove(new TwoValueContainer<Vector3, FireSides>(firePos, fireSide));
+        }
+    }
+
+    public class TwoValueContainer<T1, T2>
+    {
+        public T1 Value1 { get; set; }
+        public T2 Value2 { get; set; }
+
+        public TwoValueContainer(T1 value1, T2 value2)
+        {
+            Value1 = value1;
+            Value2 = value2;
         }
     }
 }
