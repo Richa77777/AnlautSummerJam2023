@@ -228,7 +228,7 @@ namespace FireSpace
                 {
                     yield return new WaitForSeconds(_fireSpreadingTime);
 
-                    FireController.Instance.TryIgniteTile(_puddlesRightTilemap.GetCellCenterWorld(new Vector3Int(leftTile.x, leftTile.y, 0)), FireSides.Left);
+                    FireController.Instance.TryIgniteTile(_puddlesRightTilemap.GetCellCenterWorld(new Vector3Int(leftTile.x, leftTile.y, 0)), FireSides.Right);
                 }
             }
         }
