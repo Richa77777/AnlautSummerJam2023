@@ -50,6 +50,13 @@ namespace PoolSpace
             _firesDownPool = Instantiate(_firesDownPoolPrefab).GetComponent<ObjectsPool>();
             _firesRightPool = Instantiate(_firesRightPoolPrefab).GetComponent<ObjectsPool>();
             _firesLeftPool = Instantiate(_firesLeftPoolPrefab).GetComponent<ObjectsPool>();
+
+            DontDestroyOnLoad(_smallBulletsPool);
+            DontDestroyOnLoad(_bigBulletsPool);
+            DontDestroyOnLoad(_firesUpPool);
+            DontDestroyOnLoad(_firesDownPool);
+            DontDestroyOnLoad(_firesRightPool);
+            DontDestroyOnLoad(_firesLeftPool);
         }
     }
 }

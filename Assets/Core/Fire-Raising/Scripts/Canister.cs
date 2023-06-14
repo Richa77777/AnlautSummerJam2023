@@ -26,12 +26,20 @@ namespace FireSpace
 
         private void Awake()
         {
+            _collider = GetComponent<Collider2D>();
+        }
+
+        private void OnEnable()
+        {
+            UpdateTilemaps();
+        }
+
+        private void UpdateTilemaps()
+        {
             _puddlesUpTilemap = GameObject.FindGameObjectWithTag("PuddlesUpGrid").GetComponent<Tilemap>();
             _puddlesDownTilemap = GameObject.FindGameObjectWithTag("PuddlesDownGrid").GetComponent<Tilemap>();
             _puddlesRightTilemap = GameObject.FindGameObjectWithTag("PuddlesRightGrid").GetComponent<Tilemap>();
             _puddlesLeftTilemap = GameObject.FindGameObjectWithTag("PuddlesLeftGrid").GetComponent<Tilemap>();
-
-            _collider = GetComponent<Collider2D>();
         }
 
         private void Update()

@@ -56,7 +56,7 @@ namespace PlayerSpace
                     }
                 }
 
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetKeyDown(KeyCode.LeftShift))
                 {
                     if (_bigShotAvailable == true)
                     {

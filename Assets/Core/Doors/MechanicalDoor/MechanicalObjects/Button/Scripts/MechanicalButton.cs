@@ -10,7 +10,11 @@ namespace Doors.MechanicalObjects
         [SerializeField] private Sprite _inactiveButton;
         [SerializeField] private Sprite _activeButton;
 
+        private bool _buttonIsActive = false;
+
         private SpriteRenderer _spriteRenderer;
+
+        public bool ButtonIsActive => _buttonIsActive;
 
         private void Awake()
         {
@@ -22,7 +26,12 @@ namespace Doors.MechanicalObjects
             if (collision.gameObject.layer == LayerMask.NameToLayer("Humanoid"))
             {
                 _spriteRenderer.sprite = _activeButton;
-                _connectedDoor.OpenDoor();
+                _buttonIsActive = true;
+
+                if (_connectedDoor != null)
+                {
+                    _connectedDoor.OpenDoor();
+                }
             }
         }
 
@@ -31,7 +40,12 @@ namespace Doors.MechanicalObjects
             if (collision.gameObject.layer == LayerMask.NameToLayer("Humanoid"))
             {
                 _spriteRenderer.sprite = _inactiveButton;
-                _connectedDoor.CloseDoor();
+                _buttonIsActive = false;
+                
+                if (_connectedDoor != null)
+                {
+                    _connectedDoor.CloseDoor();
+                }
             }
         }
     }

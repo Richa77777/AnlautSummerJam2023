@@ -11,8 +11,12 @@ namespace Doors
         [SerializeField] private float _timeBeforeExplosion = 3f;
         [SerializeField] private Animator _explosionAnimator;
 
+        [SerializeField] private AudioClip _fitil;
+        [SerializeField] private AudioClip _boom;
+
         private SpriteRenderer _spriteRenderer;
         private Animator _animator;
+        private AudioSource _audioSource;
 
         private Coroutine _explosionCycleCor;
 
@@ -20,6 +24,7 @@ namespace Doors
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _animator = GetComponent<Animator>();
+            _audioSource = GetComponent<AudioSource>();
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -37,10 +42,16 @@ namespace Doors
         {
             _animator.Play("Preparing", 0, 0f);
 
+            _audioSource.clip = _fitil;
+            _audioSource.Play();
+
             yield return new WaitForSeconds(_timeBeforeExplosion);
 
             _animator.StopPlayback();
             _explosionAnimator.Play("Explosion", 0, 0f);
+
+            _audioSource.clip = _boom;
+            _audioSource.Play();
 
             float waitingTime = _explosionAnimator.GetCurrentAnimatorClipInfo(0).Length / 1.5f;
 
@@ -49,7 +60,12 @@ namespace Doors
             Color color = _spriteRenderer.color;
             color.a = 0;
 
-            _connectedIronDoor.SetActive(false);
+            if (_connectedIronDoor != null)
+            {
+                _connectedIronDoor.SetActive(false);
+
+            }
+
             _spriteRenderer.color = color;
 
             yield return new WaitForSeconds(_explosionAnimator.GetCurrentAnimatorClipInfo(0).Length - waitingTime - 0.21f);

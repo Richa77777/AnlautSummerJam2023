@@ -14,6 +14,7 @@ TagManager:
   - Door
   - PuddlesCornersGrid
   - MechanicalButton
+  - SpikesGrid
   layers:
   - Default
   - TransparentFX
@@ -24,8 +25,8 @@ TagManager:
   - Ground
   - Bullet
   - Humanoid
-  - 
-  - 
+  - LevelBounds
+  - Box
   - 
   - 
   - 

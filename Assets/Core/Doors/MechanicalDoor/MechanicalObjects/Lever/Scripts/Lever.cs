@@ -10,8 +10,10 @@ namespace Doors.MechanicalObjects
         [SerializeField] private Sprite _inactiveLever;
         [SerializeField] private Sprite _activeLever;
 
-        private bool _leverActive = false;
+        private bool _leverIsActive = false;
         private SpriteRenderer _spriteRenderer;
+
+        public bool LeverIsActive => _leverIsActive;
 
         private void Awake()
         {
@@ -22,20 +24,16 @@ namespace Doors.MechanicalObjects
         {
             if (collision.gameObject.layer == LayerMask.NameToLayer("Humanoid"))
             {
-                if (_leverActive == true)
+                if (_leverIsActive == false)
                 {
-                    _leverActive = false;
-
-                    _spriteRenderer.sprite = _inactiveLever;
-                    _connectedDoor.CloseDoor();
-                }
-
-                else if (_leverActive == false)
-                {
-                    _leverActive = true;
+                    _leverIsActive = true;
 
                     _spriteRenderer.sprite = _activeLever;
-                    _connectedDoor.OpenDoor();
+
+                    if (_connectedDoor != null)
+                    {
+                        _connectedDoor.OpenDoor();
+                    }
                 }
             }
         }

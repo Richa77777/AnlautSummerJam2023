@@ -14,6 +14,9 @@ namespace PlayerSpace
         private Rigidbody2D _rigidbody;
         private Collider2D _collider;
         private Animator _bodyAnimator;
+        private bool _moveBlocked = false;
+
+        public Animator GetBodyAnimator => _bodyAnimator;
 
         private void Awake()
         {
@@ -24,7 +27,10 @@ namespace PlayerSpace
 
         private void Update()
         {
-            Move();
+            if (_moveBlocked == false)
+            {
+                Move();
+            }
 
             #region JumpAnimation
             if (IsGrounded())
@@ -61,10 +67,21 @@ namespace PlayerSpace
             }
             #endregion
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && _moveBlocked == false)
             {
                 Jump();
             }
+        }
+
+        public void BlockMove()
+        {
+            _moveBlocked = true;
+            StopMove();
+        }
+
+        public void UnblockMove()
+        {
+            _moveBlocked = false;
         }
 
         private void Move()
@@ -102,6 +119,16 @@ namespace PlayerSpace
             #endregion
 
             _rigidbody.velocity = new Vector3(horizontalAxis * _moveSpeed, _rigidbody.velocity.y, 0f);
+        }
+
+        private void StopMove()
+        {
+            _rigidbody.velocity = new Vector3(0f, 0f, 0f);
+
+            if (_bodyAnimator.GetBool("isWalking") == true)
+            {
+                _bodyAnimator.SetBool("isWalking", false);
+            }
         }
 
         private void Jump()

@@ -12,12 +12,28 @@ namespace FireSpace
         public static FireController Instance;
 
         [SerializeField] private List<TwoValueContainer<Vector3, FireSides>> _cellsWithFire = new List<TwoValueContainer<Vector3, FireSides>>();
+        [SerializeField] private AudioClip _firingSound;
+
+        private AudioSource _audioSource;
 
         public List<TwoValueContainer<Vector3, FireSides>> GetCellsWithFireList
         {
             get
             {
                 return new List<TwoValueContainer<Vector3, FireSides>>(_cellsWithFire);
+            }
+        }
+
+        public void ClearList()
+        {
+            _cellsWithFire.Clear();
+        }
+
+        private void Update()
+        {
+            if (_cellsWithFire.Count <= 0)
+            {
+                _audioSource.Stop();
             }
         }
 
@@ -34,6 +50,10 @@ namespace FireSpace
                 Destroy(gameObject);
             }
             #endregion
+
+            _audioSource = GetComponent<AudioSource>();
+            _audioSource.loop = true;
+            _audioSource.clip = _firingSound;
         }
 
         private void IgniteTile(Vector3 firePos, FireSides fireSide)
@@ -68,6 +88,11 @@ namespace FireSpace
             firePrefab.transform.position = firePos;
             firePrefab.SetActive(true);
             firePrefab.GetComponent<Fire>().FirePos = newFirePos;
+
+            if (_cellsWithFire.Count > 0)
+            {
+                _audioSource.Play();
+            }
         }
 
         public void TryIgniteTile(Vector3 firePos, FireSides fireSide)
@@ -154,6 +179,11 @@ namespace FireSpace
                     _cellsWithFire.Remove(container);
                     break;
                 }
+            }
+
+            if (_cellsWithFire.Count <= 0)
+            {
+                _audioSource.Stop();
             }
         }
     }

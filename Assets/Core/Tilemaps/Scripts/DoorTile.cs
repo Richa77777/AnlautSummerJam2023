@@ -3,40 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class DoorTile : MonoBehaviour
+namespace Doors
 {
-    [SerializeField] private TileBase _tile;
-
-    private Tilemap _groundTilemap;
-
-    private void Awake()
+    public class DoorTile : MonoBehaviour
     {
-        _groundTilemap = GameObject.FindGameObjectWithTag("GroundGrid").GetComponent<Tilemap>();
-    }
+        [SerializeField] private TileBase _tile;
 
-    private void OnEnable()
-    {
-        EnableTile();
-    }
+        private Tilemap _groundTilemap;
 
-    private void OnDisable()
-    {
-        DisableTile();
-    }
-
-    public void EnableTile()
-    {
-        if (_groundTilemap != null)
+        private void Awake()
         {
-            _groundTilemap.SetTile(Vector3Int.FloorToInt(new Vector3(transform.position.x, transform.position.y - 1)), _tile);
+            _groundTilemap = GameObject.FindGameObjectWithTag("GroundGrid").GetComponent<Tilemap>();
         }
-    }
 
-    public void DisableTile()
-    {
-        if (_groundTilemap != null)
+        private void OnEnable()
         {
-            _groundTilemap.SetTile(Vector3Int.FloorToInt(new Vector3(transform.position.x, transform.position.y - 1)), null);
+            EnableTile();
+        }
+
+        private void OnDisable()
+        {
+            DisableTile();
+        }
+
+        public void EnableTile()
+        {
+            if (_groundTilemap != null)
+            {
+                _groundTilemap.SetTile(Vector3Int.FloorToInt(new Vector3(transform.position.x, transform.position.y - 1)), _tile);
+            }
+        }
+
+        public void DisableTile()
+        {
+            if (_groundTilemap != null)
+            {
+                _groundTilemap.SetTile(Vector3Int.FloorToInt(new Vector3(transform.position.x, transform.position.y - 1)), null);
+            }
         }
     }
 }

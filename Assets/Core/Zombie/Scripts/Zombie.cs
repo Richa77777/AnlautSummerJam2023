@@ -114,11 +114,12 @@ public class Zombie : MonoBehaviour
         yield return new WaitForSeconds(_dustLifeTime);
 
         Color color = _spriteRenderer.color;
+        float currentAlpha = color.a;
         float targetAlpha = 0f;
 
         for (float t = 0; t < transparencyDuration; t += Time.deltaTime)
         {
-            color.a = Mathf.Lerp(color.a, targetAlpha, t / transparencyDuration);
+            color.a = Mathf.Lerp(currentAlpha, targetAlpha, t / transparencyDuration);
             _spriteRenderer.color = color;
             yield return null;
         }

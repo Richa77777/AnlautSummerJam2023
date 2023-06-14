@@ -28,7 +28,12 @@ namespace BulletsSpace
         [SerializeField] private TileBase[] _groundGroupNotPuddle = new TileBase[3];
         [SerializeField] private TileBase[] _groundGroupBurned = new TileBase[3];
 
-        private void Start()
+        private void OnEnable()
+        {
+            UpdateTilemaps();
+        }
+
+        private void UpdateTilemaps()
         {
             _groundTilemap = GameObject.FindGameObjectWithTag("GroundGrid").GetComponent<Tilemap>();
             _puddlesUpTilemap = GameObject.FindGameObjectWithTag("PuddlesUpGrid").GetComponent<Tilemap>();

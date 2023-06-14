@@ -22,12 +22,15 @@ namespace FireSpace
         [SerializeField] private TileBase _puddleTileRightBurned;
         [SerializeField] private TileBase _puddleTileLeftBurned;
 
+        [SerializeField] private AudioClip _fireSound;
+
         private Tilemap _puddlesUpTilemap;
         private Tilemap _puddlesDownTilemap;
         private Tilemap _puddlesRightTilemap;
         private Tilemap _puddlesLeftTilemap;
 
         private Animator _animator;
+        private AudioSource _audioSource;
 
         private Vector3 _firePos = Vector3.zero;
         public Vector3 FirePos { get => _firePos; set => _firePos = value; }
@@ -35,7 +38,13 @@ namespace FireSpace
         private void Awake()
         {
             _animator = GetComponent<Animator>();
+            _audioSource = GetComponent<AudioSource>();
 
+            _audioSource.clip = _fireSound;
+        }
+
+        private void UpdateTilemaps()
+        {
             _puddlesUpTilemap = GameObject.FindGameObjectWithTag("PuddlesUpGrid").GetComponent<Tilemap>();
             _puddlesDownTilemap = GameObject.FindGameObjectWithTag("PuddlesDownGrid").GetComponent<Tilemap>();
             _puddlesRightTilemap = GameObject.FindGameObjectWithTag("PuddlesRightGrid").GetComponent<Tilemap>();
@@ -44,6 +53,7 @@ namespace FireSpace
 
         private void OnEnable()
         {
+            UpdateTilemaps();
             StartCoroutine(FireCycle());
         }
 
@@ -285,6 +295,8 @@ namespace FireSpace
             _animator.Play("End", 0, 0);
             _firePhase = FirePhases.End;
 
+            StartCoroutine(FireSound());
+
             Vector3Int pos = Vector3Int.zero;
 
             switch (_fireSide)
@@ -333,6 +345,8 @@ namespace FireSpace
             _animator.Play("Start", 0, 0);
             _firePhase = FirePhases.Start;
 
+            StartCoroutine(FireSound());
+
             yield return new WaitForSeconds(_animator.GetCurrentAnimatorClipInfo(0).Length + 0.15f);
 
             _animator.Play("Firing", 0, 0);
@@ -341,6 +355,27 @@ namespace FireSpace
             yield return new WaitForSeconds(_fireBurningTime);
 
             yield return StartCoroutine(FiringEnd());
+        }
+
+        private IEnumerator FireSound()
+        {
+            _audioSource.volume = 0.75f;
+            _audioSource.clip = _fireSound;
+            _audioSource.pitch = Random.Range(0.95f, 1.05f);
+            _audioSource.Play();
+
+            yield return new WaitForSeconds(_audioSource.clip.length / 2);
+
+            float currentVolume = _audioSource.volume;
+            float targetVolume = 0f;
+
+            for (float t = 0; t < _audioSource.clip.length / 2; t += Time.deltaTime)
+            {
+                _audioSource.volume = Mathf.Lerp(currentVolume, targetVolume, t / _audioSource.clip.length);
+                yield return null;
+            }
+
+            _audioSource.volume = targetVolume;
         }
 
         private bool IsBurned(TileBase tile)
