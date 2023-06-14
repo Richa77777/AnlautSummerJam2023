@@ -12,6 +12,11 @@ namespace FireSpace
         [SerializeField] private TileBase _puddleTileRight;
         [SerializeField] private TileBase _puddleTileLeft;
 
+        [SerializeField] private TileBase _puddleTileUpBurned;
+        [SerializeField] private TileBase _puddleTileDownBurned;
+        [SerializeField] private TileBase _puddleTileRightBurned;
+        [SerializeField] private TileBase _puddleTileLeftBurned;
+
         private Tilemap _puddlesUpTilemap;
         private Tilemap _puddlesDownTilemap;
         private Tilemap _puddlesRightTilemap;
@@ -31,21 +36,6 @@ namespace FireSpace
 
         private void Update()
         {
-            #region Clue
-            //if (currentTilemap == _puddlesUpTilemap)
-            //{
-            //    GameObject fire = PoolsController.Instance.GetFiresUpPool.GetObjectFromPool();
-            //    Vector3Int pos = FindNearestTile(_puddlesUpTilemap, _collider.bounds.center, 1f);
-
-            //    pos.y += 1;
-
-            //    if (!FireController.Instance.GetCellsWithFireList.Contains(pos))
-            //    {
-            //        FireController.Instance.TryIgniteTile(_puddlesUpTilemap.GetCellCenterWorld(pos), fire);
-            //    }
-            //}
-            #endregion
-
             List<Vector3Int> upPuddles = FindNearestPuddleTile(_puddlesUpTilemap);
             List<Vector3Int> downPuddles = FindNearestPuddleTile(_puddlesDownTilemap);
             List<Vector3Int> rightPuddles = FindNearestPuddleTile(_puddlesRightTilemap);
@@ -58,7 +48,10 @@ namespace FireSpace
                 firePos = upPuddles[i];
                 firePos.y += 1;
 
-                FireController.Instance.TryIgniteTile(_puddlesUpTilemap.GetCellCenterWorld(firePos), FireSides.Up);
+                if (_puddlesUpTilemap.GetTile(firePos) != _puddleTileUpBurned)
+                {
+                    FireController.Instance.TryIgniteTile(_puddlesUpTilemap.GetCellCenterWorld(firePos), FireSides.Up);
+                }
             }
 
             for (int i = 0; i < downPuddles.Count; i++)
@@ -66,7 +59,10 @@ namespace FireSpace
                 firePos = downPuddles[i];
                 firePos.y -= 1;
 
-                FireController.Instance.TryIgniteTile(_puddlesDownTilemap.GetCellCenterWorld(firePos), FireSides.Down);
+                if (_puddlesDownTilemap.GetTile(firePos) != _puddleTileDownBurned)
+                {
+                    FireController.Instance.TryIgniteTile(_puddlesDownTilemap.GetCellCenterWorld(firePos), FireSides.Down);
+                }
             }
 
             for (int i = 0; i < rightPuddles.Count; i++)
@@ -74,7 +70,10 @@ namespace FireSpace
                 firePos = rightPuddles[i];
                 firePos.x += 1;
 
-                FireController.Instance.TryIgniteTile(_puddlesRightTilemap.GetCellCenterWorld(firePos), FireSides.Right);
+                if (_puddlesRightTilemap.GetTile(firePos) != _puddleTileRightBurned)
+                {
+                    FireController.Instance.TryIgniteTile(_puddlesRightTilemap.GetCellCenterWorld(firePos), FireSides.Right);
+                }
             }
 
             for (int i = 0; i < leftPuddles.Count; i++)
@@ -82,7 +81,10 @@ namespace FireSpace
                 firePos = leftPuddles[i];
                 firePos.x -= 1;
 
-                FireController.Instance.TryIgniteTile(_puddlesLeftTilemap.GetCellCenterWorld(firePos), FireSides.Left);
+                if (_puddlesLeftTilemap.GetTile(firePos) != _puddleTileLeftBurned)
+                {
+                    FireController.Instance.TryIgniteTile(_puddlesLeftTilemap.GetCellCenterWorld(firePos), FireSides.Left);
+                }
             }
         }
 

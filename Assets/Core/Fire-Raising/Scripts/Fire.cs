@@ -26,7 +26,6 @@ namespace FireSpace
         private Tilemap _puddlesDownTilemap;
         private Tilemap _puddlesRightTilemap;
         private Tilemap _puddlesLeftTilemap;
-        private Tilemap _immortalPuddlesTilemap;
 
         private Animator _animator;
 
@@ -41,7 +40,6 @@ namespace FireSpace
             _puddlesDownTilemap = GameObject.FindGameObjectWithTag("PuddlesDownGrid").GetComponent<Tilemap>();
             _puddlesRightTilemap = GameObject.FindGameObjectWithTag("PuddlesRightGrid").GetComponent<Tilemap>();
             _puddlesLeftTilemap = GameObject.FindGameObjectWithTag("PuddlesLeftGrid").GetComponent<Tilemap>();
-            _immortalPuddlesTilemap = GameObject.FindGameObjectWithTag("ImmortalPuddlesGrid").GetComponent<Tilemap>();
         }
 
         private void OnEnable()

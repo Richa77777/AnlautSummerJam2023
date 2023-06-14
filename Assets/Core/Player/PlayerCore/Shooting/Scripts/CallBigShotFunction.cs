@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayerSpace;
 
-public class CallBigShotFunction : MonoBehaviour
+namespace BulletsSpace
 {
-    public void CallBigShot()
+    public class CallBigShotFunction : MonoBehaviour
     {
-        Player.Instance.GetPlayerShootingComponent.BigShot();
+        public void CallBigShot()
+        {
+            Player.Instance.GetPlayerShootingComponent.BigShot();
+        }
     }
 }

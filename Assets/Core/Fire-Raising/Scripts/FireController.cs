@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PoolSpace;
+using UnityEngine.Tilemaps;
+using PlayerSpace;
 
 namespace FireSpace
 {
@@ -61,7 +63,6 @@ namespace FireSpace
                     newFirePos.x += 1;
                     break;
             }
-
             _cellsWithFire.Add(new TwoValueContainer<Vector3, FireSides>(newFirePos, fireSide));
 
             firePrefab.transform.position = firePos;
@@ -146,10 +147,18 @@ namespace FireSpace
 
         public void FiringEnd(Vector3 firePos, FireSides fireSide)
         {
-            _cellsWithFire.Remove(new TwoValueContainer<Vector3, FireSides>(firePos, fireSide));
+            foreach (var container in _cellsWithFire)
+            {
+                if (container.Value1 == firePos && container.Value2 == fireSide)
+                {
+                    _cellsWithFire.Remove(container);
+                    break;
+                }
+            }
         }
     }
 
+    [System.Serializable]
     public class TwoValueContainer<T1, T2>
     {
         public T1 Value1 { get; set; }

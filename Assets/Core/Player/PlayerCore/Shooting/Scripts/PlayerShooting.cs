@@ -96,7 +96,7 @@ namespace PlayerSpace
         private IEnumerator BigShotCor()
         {
             _characterBodyAnimator.Play("BigShot", 0, 0);
-            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _rigidbody.velocity.y + _bigShotJumpForce);
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _bigShotJumpForce);
 
             yield return new WaitForSeconds(_characterBodyAnimator.GetCurrentAnimatorClipInfo(0).Length - 0.15f);
 

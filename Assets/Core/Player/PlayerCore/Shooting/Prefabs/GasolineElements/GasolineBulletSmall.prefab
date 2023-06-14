@@ -77,12 +77,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 15e33f2aa165b4545aedf6c44c4e9210, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 49cf465a0e9357c4a9b4efccebc88564, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -104,6 +104,27 @@ MonoBehaviour:
   _puddleTileDown: {fileID: 11400000, guid: 1d392653f7bd2d5459300e329dc0052e, type: 2}
   _puddleTileRight: {fileID: 11400000, guid: 0aeb25564ccfe9c439adcd52851f8a8e, type: 2}
   _puddleTileLeft: {fileID: 11400000, guid: b58b22db48f55f4448101c0e89032e39, type: 2}
+  _groundGroupNotPuddle:
+  - {fileID: 11400000, guid: 159893005a0d1534ea6e8b7e6ecff72a, type: 2}
+  - {fileID: 11400000, guid: d28bb01de5e858447a0c9e01ba3cf4ce, type: 2}
+  - {fileID: 11400000, guid: 0404dc886116840439cfca2974016210, type: 2}
+  - {fileID: 11400000, guid: 86004297ed1a40b4c8351551698708d1, type: 2}
+  - {fileID: 11400000, guid: c64b66773ecc48e4081fb9292f70a35a, type: 2}
+  - {fileID: 11400000, guid: ac3cf7ad99ea64747980b35458e9104a, type: 2}
+  - {fileID: 11400000, guid: 2ce6289b931496a4290b535f5f66afc5, type: 2}
+  - {fileID: 11400000, guid: a07f87f297cc4e54dbdd47695a6e8552, type: 2}
+  - {fileID: 11400000, guid: d780060d79bcaa74aa49f3a0c0326d0f, type: 2}
+  - {fileID: 11400000, guid: 79e865fb06d900348ae02bd55027dc45, type: 2}
+  - {fileID: 11400000, guid: 93e3d7be4ec0f084bb3f4685171f59d8, type: 2}
+  - {fileID: 11400000, guid: 9989919672a9aec4ea966bca6fcce64c, type: 2}
+  - {fileID: 11400000, guid: 94ac0ae37a96cde4e9ac35bfd495d21d, type: 2}
+  - {fileID: 11400000, guid: d45b787fb2442b349bf425dd04622157, type: 2}
+  - {fileID: 11400000, guid: c66e0b2829c0d2e48984b1971153de34, type: 2}
+  _groundGroupBurned:
+  - {fileID: 11400000, guid: 6d0dd07770d9b8b4c84cfa32d910226e, type: 2}
+  - {fileID: 11400000, guid: 75fec995726852a4fafced564b4763e8, type: 2}
+  - {fileID: 11400000, guid: 174d4d28e44d04f4baac726b0ae79146, type: 2}
+  - {fileID: 11400000, guid: 848b159c3b3a7d24a9ffe98c6770e829, type: 2}
 --- !u!114 &-3907688230136524864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,7 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86fcc030c578e2546894bc973ed70d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
+  _speed: 7
 --- !u!58 &1897796770409047838
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -150,7 +171,7 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4

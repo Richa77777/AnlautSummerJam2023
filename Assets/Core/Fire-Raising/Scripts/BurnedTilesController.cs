@@ -43,7 +43,9 @@ namespace FireSpace
             yield return new WaitForSeconds(_burnedTilesLifetime);
 
             if (tilemap.GetTile(tilePos) == _puddleTileUpBurned || tilemap.GetTile(tilePos) == _puddleTileDownBurned || tilemap.GetTile(tilePos) == _puddleTileRightBurned || tilemap.GetTile(tilePos) == _puddleTileLeftBurned)
+            {
                 tilemap.SetTile(tilePos, null);
+            }
         }
     }
 }

@@ -10,7 +10,10 @@ TagManager:
   - PuddlesDownGrid
   - PuddlesRightGrid
   - PuddlesLeftGrid
-  - ImmortalPuddlesGrid
+  - Fire
+  - Door
+  - PuddlesCornersGrid
+  - MechanicalButton
   layers:
   - Default
   - TransparentFX
@@ -20,7 +23,7 @@ TagManager:
   - UI
   - Ground
   - Bullet
-  - 
+  - Humanoid
   - 
   - 
   - 

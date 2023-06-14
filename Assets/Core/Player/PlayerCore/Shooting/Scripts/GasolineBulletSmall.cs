@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using PlayerSpace;
 
 namespace BulletsSpace
 {
@@ -12,12 +14,14 @@ namespace BulletsSpace
         private Tilemap _puddlesDownTilemap;
         private Tilemap _puddlesRightTilemap;
         private Tilemap _puddlesLeftTilemap;
-        private Tilemap _immortalPuddlesTilemap;
 
         [SerializeField] private TileBase _puddleTileUp;
         [SerializeField] private TileBase _puddleTileDown;
         [SerializeField] private TileBase _puddleTileRight;
         [SerializeField] private TileBase _puddleTileLeft;
+
+        [SerializeField] private TileBase[] _groundGroupNotPuddle = new TileBase[3];
+        [SerializeField] private TileBase[] _groundGroupBurned = new TileBase[3];
 
         private void Start()
         {
@@ -26,7 +30,6 @@ namespace BulletsSpace
             _puddlesDownTilemap = GameObject.FindGameObjectWithTag("PuddlesDownGrid").GetComponent<Tilemap>();
             _puddlesRightTilemap = GameObject.FindGameObjectWithTag("PuddlesRightGrid").GetComponent<Tilemap>();
             _puddlesLeftTilemap = GameObject.FindGameObjectWithTag("PuddlesLeftGrid").GetComponent<Tilemap>();
-            _immortalPuddlesTilemap = GameObject.FindGameObjectWithTag("ImmortalPuddlesGrid").GetComponent<Tilemap>();
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -45,16 +48,24 @@ namespace BulletsSpace
                 {
                     if (collisionNormal.x > 0)
                     {
-                        if (_immortalPuddlesTilemap.GetTile(nearestTilePosition) != _puddleTileRight)
+                        if (!_groundGroupNotPuddle.Contains(_groundTilemap.GetTile(nearestTilePosition)))
                         {
-                            _puddlesRightTilemap.SetTile(nearestTilePosition, _puddleTileRight);
+                            if (_puddlesRightTilemap.GetTile(nearestTilePosition) == null || _groundGroupBurned.Contains(_puddlesRightTilemap.GetTile(nearestTilePosition)))
+                            {
+                                PlayerPuddlesController.Instance.AddPuddle(nearestTilePosition, _puddlesRightTilemap);
+                                _puddlesRightTilemap.SetTile(nearestTilePosition, _puddleTileRight);
+                            }
                         }
                     }
                     else
                     {
-                        if (_immortalPuddlesTilemap.GetTile(nearestTilePosition) != _puddleTileLeft)
+                        if (!_groundGroupNotPuddle.Contains(_groundTilemap.GetTile(nearestTilePosition)))
                         {
-                            _puddlesLeftTilemap.SetTile(nearestTilePosition, _puddleTileLeft);
+                            if (_puddlesLeftTilemap.GetTile(nearestTilePosition) == null || _groundGroupBurned.Contains(_puddlesLeftTilemap.GetTile(nearestTilePosition)))
+                            {
+                                PlayerPuddlesController.Instance.AddPuddle(nearestTilePosition, _puddlesLeftTilemap);
+                                _puddlesLeftTilemap.SetTile(nearestTilePosition, _puddleTileLeft);
+                            }
                         }
                     }
                 }
@@ -62,16 +73,24 @@ namespace BulletsSpace
                 {
                     if (collisionNormal.y > 0)
                     {
-                        if (_immortalPuddlesTilemap.GetTile(nearestTilePosition) != _puddleTileUp)
+                        if (!_groundGroupNotPuddle.Contains(_groundTilemap.GetTile(nearestTilePosition)))
                         {
-                            _puddlesUpTilemap.SetTile(nearestTilePosition, _puddleTileUp);
+                            if (_puddlesUpTilemap.GetTile(nearestTilePosition) == null || _groundGroupBurned.Contains(_puddlesUpTilemap.GetTile(nearestTilePosition)))
+                            {
+                                PlayerPuddlesController.Instance.AddPuddle(nearestTilePosition, _puddlesUpTilemap);
+                                _puddlesUpTilemap.SetTile(nearestTilePosition, _puddleTileUp);
+                            }
                         }
                     }
                     else
                     {
-                        if (_immortalPuddlesTilemap.GetTile(nearestTilePosition) != _puddleTileDown)
+                        if (!_groundGroupNotPuddle.Contains(_groundTilemap.GetTile(nearestTilePosition)))
                         {
-                            _puddlesDownTilemap.SetTile(nearestTilePosition, _puddleTileDown);
+                            if (_puddlesDownTilemap.GetTile(nearestTilePosition) == null || _groundGroupBurned.Contains(_puddlesDownTilemap.GetTile(nearestTilePosition)))
+                            {
+                                PlayerPuddlesController.Instance.AddPuddle(nearestTilePosition, _puddlesDownTilemap);
+                                _puddlesDownTilemap.SetTile(nearestTilePosition, _puddleTileDown);
+                            }
                         }
                     }
                 }

@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1546f522eb3c0aa4a90cbbe7cd0f61e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fireUpPrefab: {fileID: 5257789100122762756, guid: 7f41fae23e98f7246ae23f7d5ba414e1, type: 3}
-  _fireDownPrefab: {fileID: 791997445950819167, guid: dd5f6ecadb326964287c7fb7042020c7, type: 3}
-  _fireRightPrefab: {fileID: 7572472506985422022, guid: 6c6be629fcb51ee458696f8b7f59e16c, type: 3}
-  _fireLeftPrefab: {fileID: 1047470903033227832, guid: d908be7bf9acfb544b3d538fc3ce1f62, type: 3}
+  _cellsWithFire: []
+  _puddleTileUpBurned: {fileID: 11400000, guid: 6d0dd07770d9b8b4c84cfa32d910226e, type: 2}
+  _puddleTileDownBurned: {fileID: 11400000, guid: 75fec995726852a4fafced564b4763e8, type: 2}
+  _puddleTileRightBurned: {fileID: 11400000, guid: 174d4d28e44d04f4baac726b0ae79146, type: 2}
+  _puddleTileLeftBurned: {fileID: 11400000, guid: 848b159c3b3a7d24a9ffe98c6770e829, type: 2}

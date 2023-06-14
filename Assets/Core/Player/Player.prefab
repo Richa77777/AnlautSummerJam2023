@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1248923097}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BigShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6061178617269200541}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
@@ -71,7 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7259978022992756263}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PistolPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 7259978023185107748}
   - component: {fileID: 1560945170844764659}
   - component: {fileID: 2477883968356150662}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: c19ad0554680f2c4c90923c961793bca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -231,7 +231,7 @@ GameObject:
   - component: {fileID: 7259978023402774483}
   - component: {fileID: 2752532159540585659}
   - component: {fileID: 7259978023402774481}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -352,9 +352,10 @@ GameObject:
   - component: {fileID: 7251773029837756728}
   - component: {fileID: 7259978024521804839}
   - component: {fileID: 7259978024521804837}
+  - component: {fileID: 3035583153465808035}
   - component: {fileID: 7259978024521804841}
   - component: {fileID: 7259978024521804836}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -402,7 +403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 3
-  _jumpForce: 6
+  _jumpForce: 6.3
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -428,8 +429,19 @@ MonoBehaviour:
   _minRotation: 0
   _maxRotation: 150
   _smallShotReloadTime: 0.3
-  _bigShotReloadTime: 10
-  _bigShotJumpForce: 6.5
+  _bigShotReloadTime: 1
+  _bigShotJumpForce: 6.3
+--- !u!210 &3035583153465808035
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7259978024521804843}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 3
 --- !u!50 &7259978024521804841
 Rigidbody2D:
   serializedVersion: 4
