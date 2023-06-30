@@ -11,6 +11,8 @@ namespace PoolSpace
 
         private List<GameObject> _objectsPool = new List<GameObject>();
 
+        public List<GameObject> ObjectsPoolGet => new List<GameObject>(_objectsPool);
+
         private void Awake()
         {
             GameObject obj;

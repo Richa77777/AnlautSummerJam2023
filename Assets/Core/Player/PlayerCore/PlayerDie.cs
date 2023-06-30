@@ -1,3 +1,4 @@
+using PoolSpace;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,9 +41,12 @@ namespace PlayerSpace
             yield return new WaitForSeconds(FadeController.Instance.GetFadeTime);
 
             FireSpace.FireController.Instance.ClearList();
-            _dieCor = null;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
+            _dieCor = null;
+
+            _bodyAnimator.gameObject.transform.rotation = Quaternion.Euler(Vector3.zero);
+
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }

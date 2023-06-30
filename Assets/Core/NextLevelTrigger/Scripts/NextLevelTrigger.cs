@@ -27,6 +27,7 @@ public class NextLevelTrigger : MonoBehaviour
         FadeController.Instance.Fade(true);
 
         yield return new WaitForSeconds(FadeController.Instance.GetFadeTime);
+        FireSpace.FireController.Instance.ClearList();
 
         SceneManager.LoadScene(_levelName);
     }

@@ -17,6 +17,7 @@ namespace PlayerSpace
         private bool _moveBlocked = false;
 
         public Animator GetBodyAnimator => _bodyAnimator;
+        public bool MoveBlockedGet => _moveBlocked;
 
         private void Awake()
         {

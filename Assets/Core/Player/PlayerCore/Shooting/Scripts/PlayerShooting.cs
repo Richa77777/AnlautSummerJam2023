@@ -45,7 +45,7 @@ namespace PlayerSpace
         {
             SetRotation();
 
-            if (_shootingAvailable == true)
+            if (_shootingAvailable == true && Player.Instance.GetPlayerMovementComponent.MoveBlockedGet == false)
             {
                 if (Input.GetMouseButtonDown(0))
                 {

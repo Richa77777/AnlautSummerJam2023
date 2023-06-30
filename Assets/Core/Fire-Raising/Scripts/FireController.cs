@@ -26,6 +26,26 @@ namespace FireSpace
 
         public void ClearList()
         {
+            for (int i = 0; i < PoolsController.Instance.GetFiresUpPool.ObjectsPoolGet.Count; i++)
+            {
+                PoolsController.Instance.GetFiresUpPool.ObjectsPoolGet[i].SetActive(false);
+            }
+
+            for (int i = 0; i < PoolsController.Instance.GetFiresDownPool.ObjectsPoolGet.Count; i++)
+            {
+                PoolsController.Instance.GetFiresDownPool.ObjectsPoolGet[i].SetActive(false);
+            }
+
+            for (int i = 0; i < PoolsController.Instance.GetFiresRightPool.ObjectsPoolGet.Count; i++)
+            {
+                PoolsController.Instance.GetFiresRightPool.ObjectsPoolGet[i].SetActive(false);
+            }
+
+            for (int i = 0; i < PoolsController.Instance.GetFiresLeftPool.ObjectsPoolGet.Count; i++)
+            {
+                PoolsController.Instance.GetFiresLeftPool.ObjectsPoolGet[i].SetActive(false);
+            }
+
             _cellsWithFire.Clear();
         }
 

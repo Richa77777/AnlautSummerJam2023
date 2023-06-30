@@ -201,11 +201,11 @@ namespace FireSpace
                     FireController.Instance.TryIgniteTile(_puddlesRightTilemap.GetCellCenterWorld(new Vector3Int(downTile.x + 1, downTile.y, 0)), FireSides.Right);
                 }
 
-                if (_puddlesUpTilemap.HasTile(new Vector3Int(downTile.x + 1, downTile.y - 1)) == true && IsBurned(_puddlesUpTilemap.GetTile(new Vector3Int(downTile.x + 1, downTile.y - 1))) == false)
+                if (_puddlesUpTilemap.HasTile(new Vector3Int(downTile.x + 1, downTile.y)) == true && IsBurned(_puddlesUpTilemap.GetTile(new Vector3Int(downTile.x + 1, downTile.y - 1))) == false)
                 {
                     yield return new WaitForSeconds(_fireSpreadingTime);
 
-                    FireController.Instance.TryIgniteTile(_puddlesUpTilemap.GetCellCenterWorld(new Vector3Int(downTile.x + 1, downTile.y)), FireSides.Up);
+                    FireController.Instance.TryIgniteTile(_puddlesUpTilemap.GetCellCenterWorld(new Vector3Int(downTile.x + 1, downTile.y + 1)), FireSides.Up);
                 }
 
                 if (_puddlesDownTilemap.HasTile(new Vector3Int(upTile.x + 1, upTile.y + 1)) == true && IsBurned(_puddlesDownTilemap.GetTile(new Vector3Int(upTile.x + 1, upTile.y + 1))) == false)

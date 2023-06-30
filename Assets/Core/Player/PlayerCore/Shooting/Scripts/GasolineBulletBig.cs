@@ -54,26 +54,11 @@ namespace BulletsSpace
                 Vector2 collisionNormal = contact.normal;
 
                 // Check the direction of impact and set the corresponding tile on _puddlesTilemap
-                if (Mathf.Abs(collisionNormal.x) > Mathf.Abs(collisionNormal.y))
-                {
-                    if (collisionNormal.x > 0)
-                    {
-                        SetPuddleTiles(nearestTilePosition, _puddleTileRight, 3); // Set the line length here (e.g., 5)
-                    }
-                    else
-                    {
-                        SetPuddleTiles(nearestTilePosition, _puddleTileLeft, 3);
-                    }
-                }
-                else
+                if (Mathf.Abs(collisionNormal.x) < Mathf.Abs(collisionNormal.y))
                 {
                     if (collisionNormal.y > 0)
                     {
                         SetPuddleTiles(nearestTilePosition, _puddleTileUp, 3);
-                    }
-                    else
-                    {
-                        SetPuddleTiles(nearestTilePosition, _puddleTileDown, 3);
                     }
                 }
             }
@@ -116,21 +101,6 @@ namespace BulletsSpace
                     currentTilemap = _puddlesUpTilemap;
                 }
 
-                else if (puddleTile == _puddleTileDown)
-                {
-                    currentTilemap = _puddlesDownTilemap;
-                }
-
-                else if (puddleTile == _puddleTileRight)
-                {
-                    currentTilemap = _puddlesRightTilemap;
-                }
-
-                else if (puddleTile == _puddleTileLeft)
-                {
-                    currentTilemap = _puddlesLeftTilemap;
-                }
-
                 if (!_groundGroupNotPuddle.Contains(_groundTilemap.GetTile(centerTilePosition)))
                 {
                     if (currentTilemap.GetTile(centerTilePosition) == null || _groundGroupBurned.Contains(currentTilemap.GetTile(centerTilePosition)))
@@ -157,16 +127,12 @@ namespace BulletsSpace
                 {
                     bool left = true;
                     bool right = true;
-                    bool up = true;
-                    bool down = true;
 
                     // Set tiles along the line in each direction if they are available and have the same TileBase as the center tile
                     for (int i = 1; i <= lineLength; i++)
                     {
                         Vector3Int leftTilePosition = centerTilePosition + new Vector3Int(-i, 0, 0);
                         Vector3Int rightTilePosition = centerTilePosition + new Vector3Int(i, 0, 0);
-                        Vector3Int downTilePosition = centerTilePosition + new Vector3Int(0, -i, 0);
-                        Vector3Int upTilePosition = centerTilePosition + new Vector3Int(0, i, 0);
 
                         if (puddleTile == _puddleTileUp)
                         {
@@ -194,31 +160,6 @@ namespace BulletsSpace
                             }
                         }
 
-                        if (puddleTile == _puddleTileRight)
-                        {
-                            if (_groundTilemap.HasTile(new Vector3Int(upTilePosition.x + 1, upTilePosition.y)))
-                            {
-                                up = false;
-                            }
-
-                            if (_groundTilemap.HasTile(new Vector3Int(downTilePosition.x + 1, downTilePosition.y)))
-                            {
-                                down = false;
-                            }
-                        }
-
-                        if (puddleTile == _puddleTileLeft)
-                        {
-                            if (_groundTilemap.HasTile(new Vector3Int(upTilePosition.x - 1, upTilePosition.y)))
-                            {
-                                up = false;
-                            }
-
-                            if (_groundTilemap.HasTile(new Vector3Int(downTilePosition.x - 1, downTilePosition.y)))
-                            {
-                                down = false;
-                            }
-                        }
 
                         if (_groundTilemap.HasTile(rightTilePosition) && tilesGroup.Contains(_groundTilemap.GetTile(rightTilePosition)) && right == true)
                         {
@@ -310,30 +251,6 @@ namespace BulletsSpace
                                 {
                                     PlayerPuddlesController.Instance.AddPuddle(leftTilePosition, currentTilemap);
                                     currentTilemap.SetTile(leftTilePosition, puddleTile);
-                                }
-                            }
-                        }
-
-                        if (_groundTilemap.HasTile(upTilePosition) && tilesGroup.Contains(_groundTilemap.GetTile(upTilePosition)) && up == true)
-                        {
-                            if (!_groundGroupNotPuddle.Contains(_groundTilemap.GetTile(upTilePosition)))
-                            {
-                                if (currentTilemap.GetTile(upTilePosition) == null || _groundGroupBurned.Contains(currentTilemap.GetTile(upTilePosition)))
-                                {
-                                    PlayerPuddlesController.Instance.AddPuddle(upTilePosition, currentTilemap);
-                                    currentTilemap.SetTile(upTilePosition, puddleTile);
-                                }
-                            }
-                        }
-
-                        if (_groundTilemap.HasTile(downTilePosition) && tilesGroup.Contains(_groundTilemap.GetTile(downTilePosition)) && down == true)
-                        {
-                            if (!_groundGroupNotPuddle.Contains(_groundTilemap.GetTile(downTilePosition)))
-                            {
-                                if (currentTilemap.GetTile(downTilePosition) == null || _groundGroupBurned.Contains(currentTilemap.GetTile(downTilePosition)))
-                                {
-                                    PlayerPuddlesController.Instance.AddPuddle(downTilePosition, currentTilemap);
-                                    currentTilemap.SetTile(downTilePosition, puddleTile);
                                 }
                             }
                         }
