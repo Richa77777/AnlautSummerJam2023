@@ -7,6 +7,7 @@ using Cinemachine;
 public class StartGame : MonoBehaviour
 {
     [SerializeField] private Sprite _wardrobe;
+    [SerializeField] private Transform _playerSpawnpoint;
 
     private SpriteRenderer _spriteRenderer;
     private Animator _animator;
@@ -28,6 +29,7 @@ public class StartGame : MonoBehaviour
 
     private IEnumerator StartGameCor()
     {
+        Player.Instance.gameObject.transform.position = _playerSpawnpoint.position;
         _camera.m_Lens.OrthographicSize = 1.7f;
         _transposer.m_FollowOffset = new Vector3(0, 0.35f, -10);
 
@@ -49,6 +51,7 @@ public class StartGame : MonoBehaviour
 
         _animator.Play("Idle", 0, 0);
         _spriteRenderer.sprite = _wardrobe;
+    
         Player.Instance.gameObject.SetActive(true);
         FadeController.Instance.Fade(false);
     }

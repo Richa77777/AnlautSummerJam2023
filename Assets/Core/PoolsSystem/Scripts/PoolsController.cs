@@ -42,7 +42,10 @@ namespace PoolSpace
                 Destroy(gameObject);
             }
             #endregion
+        }
 
+        private void Start()
+        {
             _smallBulletsPool = Instantiate(_smallBulletsPoolPrefab).GetComponent<ObjectsPool>();
             _bigBulletsPool = Instantiate(_bigBulletsPoolPrefab).GetComponent<ObjectsPool>();
 

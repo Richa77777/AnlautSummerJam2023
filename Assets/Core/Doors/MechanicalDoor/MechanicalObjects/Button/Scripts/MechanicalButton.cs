@@ -12,8 +12,9 @@ namespace Doors.MechanicalObjects
 
         private bool _buttonIsActive = false;
 
+        private GameObject _whoPressed = null;
         private SpriteRenderer _spriteRenderer;
-
+       
         public bool ButtonIsActive => _buttonIsActive;
 
         private void Awake()
@@ -21,30 +22,45 @@ namespace Doors.MechanicalObjects
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void OnTriggerStay2D(Collider2D collision)
         {
-            if (collision.gameObject.layer == LayerMask.NameToLayer("Humanoid"))
+            if (_buttonIsActive == false)
             {
-                _spriteRenderer.sprite = _activeButton;
-                _buttonIsActive = true;
-
-                if (_connectedDoor != null)
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Humanoid") || collision.gameObject.layer == LayerMask.NameToLayer("Box"))
                 {
-                    _connectedDoor.OpenDoor();
+                    if (_whoPressed == null)
+                    {
+                        _whoPressed = collision.gameObject;
+                        _spriteRenderer.sprite = _activeButton;
+                        _buttonIsActive = true;
+
+                        if (_connectedDoor != null)
+                        {
+                            _connectedDoor.OpenDoor();
+                        }
+                    }
                 }
             }
         }
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if (collision.gameObject.layer == LayerMask.NameToLayer("Humanoid"))
+            if (_buttonIsActive == true)
             {
-                _spriteRenderer.sprite = _inactiveButton;
-                _buttonIsActive = false;
-                
-                if (_connectedDoor != null)
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Humanoid") || collision.gameObject.layer == LayerMask.NameToLayer("Box"))
                 {
-                    _connectedDoor.CloseDoor();
+                    if (collision.gameObject == _whoPressed)
+                    {
+                        _spriteRenderer.sprite = _inactiveButton;
+                        _buttonIsActive = false;
+
+                        if (_connectedDoor != null)
+                        {
+                            _connectedDoor.CloseDoor();
+                        }
+
+                        _whoPressed = null;
+                    }
                 }
             }
         }

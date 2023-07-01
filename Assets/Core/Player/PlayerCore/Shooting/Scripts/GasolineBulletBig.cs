@@ -12,21 +12,12 @@ namespace BulletsSpace
         private Tilemap _groundTilemap;
 
         private Tilemap _puddlesUpTilemap;
-        private Tilemap _puddlesDownTilemap;
-        private Tilemap _puddlesRightTilemap;
-        private Tilemap _puddlesLeftTilemap;
 
         [SerializeField] private TileBase _puddleTileUp;
-        [SerializeField] private TileBase _puddleTileDown;
-        [SerializeField] private TileBase _puddleTileRight;
-        [SerializeField] private TileBase _puddleTileLeft;
+        [SerializeField] private TileBase _puddleTileUpBurned;
 
-        [SerializeField] private TileBase[] _groundGroupVertical = new TileBase[3];
         [SerializeField] private TileBase[] _groundGroupHorizontal = new TileBase[3];
-        [SerializeField] private TileBase[] _groundGroupAllowVerticalRight = new TileBase[3];
-        [SerializeField] private TileBase[] _groundGroupAllowVerticalLeft = new TileBase[3];
         [SerializeField] private TileBase[] _groundGroupNotPuddle = new TileBase[3];
-        [SerializeField] private TileBase[] _groundGroupBurned = new TileBase[3];
 
         private void OnEnable()
         {
@@ -37,9 +28,6 @@ namespace BulletsSpace
         {
             _groundTilemap = GameObject.FindGameObjectWithTag("GroundGrid").GetComponent<Tilemap>();
             _puddlesUpTilemap = GameObject.FindGameObjectWithTag("PuddlesUpGrid").GetComponent<Tilemap>();
-            _puddlesDownTilemap = GameObject.FindGameObjectWithTag("PuddlesDownGrid").GetComponent<Tilemap>();
-            _puddlesRightTilemap = GameObject.FindGameObjectWithTag("PuddlesRightGrid").GetComponent<Tilemap>();
-            _puddlesLeftTilemap = GameObject.FindGameObjectWithTag("PuddlesLeftGrid").GetComponent<Tilemap>();
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -103,9 +91,8 @@ namespace BulletsSpace
 
                 if (!_groundGroupNotPuddle.Contains(_groundTilemap.GetTile(centerTilePosition)))
                 {
-                    if (currentTilemap.GetTile(centerTilePosition) == null || _groundGroupBurned.Contains(currentTilemap.GetTile(centerTilePosition)))
+                    if (currentTilemap.GetTile(centerTilePosition) == null || currentTilemap.GetTile(centerTilePosition) == _puddleTileUpBurned)
                     {
-                        PlayerPuddlesController.Instance.AddPuddle(centerTilePosition, currentTilemap);
                         currentTilemap.SetTile(centerTilePosition, puddleTile);
                     }
                 }
@@ -118,10 +105,6 @@ namespace BulletsSpace
                     tilesGroup = _groundGroupHorizontal;
                 }
 
-                else if (_groundGroupVertical.Contains(centerGroundTile))
-                {
-                    tilesGroup = _groundGroupVertical;
-                }
 
                 if (tilesGroup != null)
                 {
@@ -147,62 +130,13 @@ namespace BulletsSpace
                             }
                         }
 
-                        if (puddleTile == _puddleTileDown)
-                        {
-                            if (_groundTilemap.HasTile(new Vector3Int(leftTilePosition.x, leftTilePosition.y - 1)))
-                            {
-                                left = false;
-                            }
-
-                            if (_groundTilemap.HasTile(new Vector3Int(rightTilePosition.x, rightTilePosition.y - 1)))
-                            {
-                                right = false;
-                            }
-                        }
-
 
                         if (_groundTilemap.HasTile(rightTilePosition) && tilesGroup.Contains(_groundTilemap.GetTile(rightTilePosition)) && right == true)
                         {
-                            if (puddleTile == _puddleTileLeft || puddleTile == _puddleTileRight)
-                            {
-                                if (puddleTile == _puddleTileRight)
-                                {
-                                    if (_groundGroupAllowVerticalRight.Contains(_groundTilemap.GetTile(rightTilePosition)))
-                                    {
-                                        if (!_groundGroupNotPuddle.Contains(_groundTilemap.GetTile(rightTilePosition)))
-                                        {
-                                            if (currentTilemap.GetTile(rightTilePosition) == null || _groundGroupBurned.Contains(currentTilemap.GetTile(rightTilePosition)))
-                                            {
-                                                PlayerPuddlesController.Instance.AddPuddle(rightTilePosition, currentTilemap);
-                                                currentTilemap.SetTile(rightTilePosition, puddleTile);
-                                            }
-                                        }
-                                    }
-                                }
-
-                                else if (_puddlesLeftTilemap == _puddleTileLeft)
-                                {
-                                    if (_groundGroupAllowVerticalLeft.Contains(_groundTilemap.GetTile(rightTilePosition)))
-                                    {
-                                        if (!_groundGroupNotPuddle.Contains(_groundTilemap.GetTile(rightTilePosition)))
-                                        {
-                                            if (currentTilemap.GetTile(rightTilePosition) == null || _groundGroupBurned.Contains(currentTilemap.GetTile(rightTilePosition)))
-                                            {
-                                                PlayerPuddlesController.Instance.AddPuddle(rightTilePosition, currentTilemap);
-                                                currentTilemap.SetTile(rightTilePosition, puddleTile);
-                                            }
-                                        }
-                                    }
-                                }
-
-                                return;
-                            }
-
                             if (!_groundGroupNotPuddle.Contains(_groundTilemap.GetTile(rightTilePosition)))
                             {
-                                if (currentTilemap.GetTile(rightTilePosition) == null || _groundGroupBurned.Contains(currentTilemap.GetTile(rightTilePosition)))
+                                if (currentTilemap.GetTile(rightTilePosition) == null || currentTilemap.GetTile(rightTilePosition) == _puddleTileUpBurned)
                                 {
-                                    PlayerPuddlesController.Instance.AddPuddle(rightTilePosition, currentTilemap);
                                     currentTilemap.SetTile(rightTilePosition, puddleTile);
                                 }
                             }
@@ -210,46 +144,10 @@ namespace BulletsSpace
 
                         if (_groundTilemap.HasTile(leftTilePosition) && tilesGroup.Contains(_groundTilemap.GetTile(leftTilePosition)) && left == true)
                         {
-                            if (puddleTile == _puddleTileLeft || puddleTile == _puddleTileRight)
-                            {
-                                if (puddleTile == _puddleTileRight)
-                                {
-                                    if (_groundGroupAllowVerticalRight.Contains(_groundTilemap.GetTile(leftTilePosition)))
-                                    {
-                                        if (!_groundGroupNotPuddle.Contains(_groundTilemap.GetTile(leftTilePosition)))
-                                        {
-                                            if (currentTilemap.GetTile(leftTilePosition) == null || _groundGroupBurned.Contains(currentTilemap.GetTile(leftTilePosition)))
-                                            {
-                                                PlayerPuddlesController.Instance.AddPuddle(leftTilePosition, currentTilemap);
-                                                currentTilemap.SetTile(leftTilePosition, puddleTile);
-                                            }
-                                        }
-                                    }
-                                }
-
-                                else if (_puddlesLeftTilemap == _puddleTileLeft)
-                                {
-                                    if (_groundGroupAllowVerticalLeft.Contains(_groundTilemap.GetTile(leftTilePosition)))
-                                    {
-                                        if (!_groundGroupNotPuddle.Contains(_groundTilemap.GetTile(leftTilePosition)))
-                                        {
-                                            if (currentTilemap.GetTile(leftTilePosition) == null || _groundGroupBurned.Contains(currentTilemap.GetTile(leftTilePosition)))
-                                            {
-                                                PlayerPuddlesController.Instance.AddPuddle(leftTilePosition, currentTilemap);
-                                                currentTilemap.SetTile(leftTilePosition, puddleTile);
-                                            }
-                                        }
-                                    }
-                                }
-
-                                return;
-                            }
-
                             if (!_groundGroupNotPuddle.Contains(_groundTilemap.GetTile(leftTilePosition)))
                             {
-                                if (currentTilemap.GetTile(leftTilePosition) == null || _groundGroupBurned.Contains(currentTilemap.GetTile(leftTilePosition)))
+                                if (currentTilemap.GetTile(leftTilePosition) == null || currentTilemap.GetTile(leftTilePosition) == _puddleTileUpBurned)
                                 {
-                                    PlayerPuddlesController.Instance.AddPuddle(leftTilePosition, currentTilemap);
                                     currentTilemap.SetTile(leftTilePosition, puddleTile);
                                 }
                             }

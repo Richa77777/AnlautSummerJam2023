@@ -60,7 +60,6 @@ namespace BulletsSpace
                             {
                                 if (_puddlesRightTilemap.GetTile(nearestTilePosition) == null || _groundGroupBurned.Contains(_puddlesRightTilemap.GetTile(nearestTilePosition)))
                                 {
-                                    PlayerPuddlesController.Instance.AddPuddle(nearestTilePosition, _puddlesRightTilemap);
                                     _puddlesRightTilemap.SetTile(nearestTilePosition, _puddleTileRight);
                                 }
                             }
@@ -71,7 +70,6 @@ namespace BulletsSpace
                             {
                                 if (_puddlesLeftTilemap.GetTile(nearestTilePosition) == null || _groundGroupBurned.Contains(_puddlesLeftTilemap.GetTile(nearestTilePosition)))
                                 {
-                                    PlayerPuddlesController.Instance.AddPuddle(nearestTilePosition, _puddlesLeftTilemap);
                                     _puddlesLeftTilemap.SetTile(nearestTilePosition, _puddleTileLeft);
                                 }
                             }
@@ -85,7 +83,6 @@ namespace BulletsSpace
                             {
                                 if (_puddlesUpTilemap.GetTile(nearestTilePosition) == null || _groundGroupBurned.Contains(_puddlesUpTilemap.GetTile(nearestTilePosition)))
                                 {
-                                    PlayerPuddlesController.Instance.AddPuddle(nearestTilePosition, _puddlesUpTilemap);
                                     _puddlesUpTilemap.SetTile(nearestTilePosition, _puddleTileUp);
                                 }
                             }
@@ -96,7 +93,6 @@ namespace BulletsSpace
                             {
                                 if (_puddlesDownTilemap.GetTile(nearestTilePosition) == null || _groundGroupBurned.Contains(_puddlesDownTilemap.GetTile(nearestTilePosition)))
                                 {
-                                    PlayerPuddlesController.Instance.AddPuddle(nearestTilePosition, _puddlesDownTilemap);
                                     _puddlesDownTilemap.SetTile(nearestTilePosition, _puddleTileDown);
                                 }
                             }

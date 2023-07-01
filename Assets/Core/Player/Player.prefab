@@ -407,7 +407,7 @@ MonoBehaviour:
   _jumpForce: 6.5
   _groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1088
   _body: {fileID: 7259978023402774482}
 --- !u!114 &7259978024521804837
 MonoBehaviour:

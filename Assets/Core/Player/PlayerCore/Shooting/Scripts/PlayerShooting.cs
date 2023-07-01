@@ -34,6 +34,7 @@ namespace PlayerSpace
         public Transform GetHandWithPistol => _handWithPistol;
         public Transform GetShootPoint => _shootPoint;
         public bool ShootingAvailable { set => _shootingAvailable = value; }
+        public bool BigShootingAvailable { set => _bigShotAvailable = value; }
 
         private void Awake()
         {

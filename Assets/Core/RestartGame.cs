@@ -10,6 +10,8 @@ public class RestartGame : MonoBehaviour
     {
         FireSpace.FireController.Instance.ClearList();
         Player.Instance.gameObject.SetActive(true);
+        Player.Instance.GetPlayerShootingComponent.BigShootingAvailable = true;
+        Player.Instance.GetPlayerMovementComponent.UnblockMove();
         SceneManager.LoadScene("Manual1");
     }
 }

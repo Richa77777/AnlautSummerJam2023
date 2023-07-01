@@ -102,16 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _puddleTileUp: {fileID: 11400000, guid: 2ade199b6f066b647a0ce1f844c62629, type: 2}
-  _puddleTileDown: {fileID: 11400000, guid: 1d392653f7bd2d5459300e329dc0052e, type: 2}
-  _puddleTileRight: {fileID: 11400000, guid: 0aeb25564ccfe9c439adcd52851f8a8e, type: 2}
-  _puddleTileLeft: {fileID: 11400000, guid: b58b22db48f55f4448101c0e89032e39, type: 2}
-  _groundGroupVertical:
-  - {fileID: 11400000, guid: 5da017ece911a784e80d957a5b88b935, type: 2}
-  - {fileID: 11400000, guid: de28557eddacb0141adbf7ec477a76ca, type: 2}
-  - {fileID: 11400000, guid: 5e411659899bdf24ca5ccd63d853f5fc, type: 2}
-  - {fileID: 11400000, guid: 6ef50aaa1abfa0043bc78bd2ffd860c8, type: 2}
-  - {fileID: 11400000, guid: baba573bb50ce5642af650aaabfa74d7, type: 2}
-  - {fileID: 11400000, guid: ab39f5a047a5c1e43b75efd12ce629f2, type: 2}
+  _puddleTileUpBurned: {fileID: 11400000, guid: 6d0dd07770d9b8b4c84cfa32d910226e, type: 2}
   _groundGroupHorizontal:
   - {fileID: 11400000, guid: afb40c6abebca124e8c404f20096bf6d, type: 2}
   - {fileID: 11400000, guid: 242ee912f537fc343a8addc3bde548cf, type: 2}
@@ -130,16 +121,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4378afac6d2e17b4f9b73865d8c8f4f2, type: 2}
   - {fileID: 11400000, guid: d261e8031934d1849b34b96abda681b6, type: 2}
   - {fileID: 11400000, guid: 2e8964e23e10f3c478df3b9040ec4d2c, type: 2}
-  _groundGroupAllowVerticalRight:
-  - {fileID: 11400000, guid: b346c7a037175354ebe29a7951aa4b79, type: 2}
-  - {fileID: 11400000, guid: eabeea73fbded6745b18a8c25ea69b1d, type: 2}
-  - {fileID: 11400000, guid: 619fc9ec6128cb045ba92ef148b2fea6, type: 2}
-  - {fileID: 11400000, guid: f5fbf397fa833fc41aff241b14c0417a, type: 2}
-  _groundGroupAllowVerticalLeft:
-  - {fileID: 11400000, guid: afb40c6abebca124e8c404f20096bf6d, type: 2}
-  - {fileID: 11400000, guid: 7498159bbf59359428c594fec8646466, type: 2}
-  - {fileID: 11400000, guid: 8414fd58877f76b409f5b272029d1c13, type: 2}
-  - {fileID: 11400000, guid: 5b2fe9f1a19c01d4f8dd8f4a8c5c24f9, type: 2}
   _groundGroupNotPuddle:
   - {fileID: 11400000, guid: 159893005a0d1534ea6e8b7e6ecff72a, type: 2}
   - {fileID: 11400000, guid: d28bb01de5e858447a0c9e01ba3cf4ce, type: 2}
@@ -156,11 +137,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 94ac0ae37a96cde4e9ac35bfd495d21d, type: 2}
   - {fileID: 11400000, guid: d45b787fb2442b349bf425dd04622157, type: 2}
   - {fileID: 11400000, guid: c66e0b2829c0d2e48984b1971153de34, type: 2}
-  _groundGroupBurned:
-  - {fileID: 11400000, guid: 6d0dd07770d9b8b4c84cfa32d910226e, type: 2}
-  - {fileID: 11400000, guid: 75fec995726852a4fafced564b4763e8, type: 2}
-  - {fileID: 11400000, guid: 174d4d28e44d04f4baac726b0ae79146, type: 2}
-  - {fileID: 11400000, guid: 848b159c3b3a7d24a9ffe98c6770e829, type: 2}
 --- !u!114 &3303486849355456671
 MonoBehaviour:
   m_ObjectHideFlags: 0
